@@ -3,5 +3,5 @@ import { ProfileDto } from '../dtos/profile-dto';
 import { UserDto } from '../dtos/user-dto';
 
 export interface PasswordValidator {
-  validate(body: UserDto | GameDto | ProfileDto): Promise<boolean>;
+  validatePassword(body: UserDto | GameDto | ProfileDto): Promise<boolean>;
 }
