@@ -1,7 +1,7 @@
-import { Game } from '../entities/game-entity';
-import { Profile } from '../entities/profile-entity';
-import { User } from '../entities/user-entity';
+import { GameDto } from '../dtos/game-dto';
+import { ProfileDto } from '../dtos/profile-dto';
+import { UserDto } from '../dtos/user-dto';
 
 export interface CreateUseCase {
-  execute(body: Game | Profile | User): Promise<boolean>;
+  execute(body: GameDto | ProfileDto | UserDto): Promise<boolean>;
 }
