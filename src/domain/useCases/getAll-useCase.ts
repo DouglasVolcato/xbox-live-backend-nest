@@ -3,5 +3,5 @@ import { Profile } from '../entities/profile-entity';
 import { User } from '../entities/user-entity';
 
 export interface GetAllUseCase {
-  execute(): Promise<Game[] | Profile[] | User[]>;
+  execute(): Promise<Game[] | Profile[] | User[] | []>;
 }
