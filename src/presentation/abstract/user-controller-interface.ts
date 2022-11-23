@@ -1,10 +1,10 @@
-import { LoginDto } from '../dtos/login-dto';
-import { MessageDto } from '../dtos/message-dto';
-import { TokenDto } from '../dtos/token-dto';
-import { UserDto } from '../dtos/user-dto';
-import { UserEntityInterface } from '../entities/user-entity-interface';
-import { HttpRequest } from '../http/http-request';
-import { HttpRsponse } from '../http/http-response';
+import { LoginDto } from '../../domain/dtos/login-dto';
+import { MessageDto } from '../../domain/dtos/message-dto';
+import { TokenDto } from '../../domain/dtos/token-dto';
+import { UserDto } from '../../domain/dtos/user-dto';
+import { UserEntityInterface } from '../../domain/entities/user-entity-interface';
+import { HttpRequest } from '../../domain/http/http-request';
+import { HttpRsponse } from '../../domain/http/http-response';
 
 export interface UserControllerInterface {
   create(httpRequest: HttpRequest<UserDto>): Promise<HttpRsponse<MessageDto>>;
