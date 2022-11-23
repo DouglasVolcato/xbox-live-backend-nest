@@ -1,27 +1,27 @@
-import { Game } from 'src/domain/entities/game-entity';
-import { Repository } from 'src/domain/repositories/repository';
+import { GameEntityInterface } from 'src/domain/entities/game-entity-interface';
+import { GameRepositoryInterface } from 'src/infra/repositories/abstract/game-repository-interface';
 import { arrGames } from '../database/mocked';
 
-export class GameRepository implements Repository {
-  create(body: Game): Promise<Game> {
+export class GameRepository implements GameRepositoryInterface {
+  create(body: GameEntityInterface): Promise<GameEntityInterface> {
     return new Promise((resolve) => {
       arrGames.push(body);
       resolve(body);
     });
   }
-
-  getOne(id: string): Promise<Game> {
+  getOne(id: string): Promise<void | GameEntityInterface> {
     return new Promise((resolve) => {
       const foundGame = arrGames.find((game) => game.id === id);
       resolve(foundGame);
     });
   }
-
-  getAll(): Promise<Game[]> {
+  getAll(): Promise<GameEntityInterface[] | []> {
     return new Promise((resolve) => resolve(arrGames));
   }
-
-  update(body: Game, id: string): Promise<Game> {
+  update(
+    body: GameEntityInterface,
+    id: string,
+  ): Promise<void | GameEntityInterface> {
     return new Promise((resolve) => {
       for (let index = 0; index < arrGames.length; index++) {
         if (arrGames[index].id === id) {
@@ -32,11 +32,10 @@ export class GameRepository implements Repository {
       resolve(body);
     });
   }
-
-  delete(id: string): Promise<Game> {
+  delete(id: string): Promise<void | GameEntityInterface> {
     return new Promise((resolve) => {
       for (let index = 0; index < arrGames.length; index++) {
-        if (arrGames[index].id === id) {
+        if (arrGames[index].id == id) {
           arrGames.splice(index, 1);
           resolve(arrGames[index]);
         }

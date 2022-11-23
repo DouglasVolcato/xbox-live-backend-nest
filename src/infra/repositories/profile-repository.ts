@@ -1,27 +1,30 @@
-import { Profile } from 'src/domain/entities/profile-entity';
-import { Repository } from 'src/domain/repositories/repository';
+import { ProfileEntityInterface } from 'src/domain/entities/profile-entity-interface';
+import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
 import { arrProfiles } from '../database/mocked';
 
-export class ProfileRepository implements Repository {
-  create(body: Profile): Promise<Profile> {
+export class ProfileRepository implements ProfileRepositoryInterface {
+  create(body: ProfileEntityInterface): Promise<ProfileEntityInterface> {
     return new Promise((resolve) => {
       arrProfiles.push(body);
       resolve(body);
     });
   }
 
-  getOne(id: string): Promise<Profile> {
+  getOne(id: string): Promise<ProfileEntityInterface> {
     return new Promise((resolve) => {
       const foundProfile = arrProfiles.find((profile) => profile.id === id);
       resolve(foundProfile);
     });
   }
 
-  getAll(): Promise<Profile[]> {
+  getAll(): Promise<ProfileEntityInterface[]> {
     return new Promise((resolve) => resolve(arrProfiles));
   }
 
-  update(body: Profile, id: string): Promise<Profile> {
+  update(
+    body: ProfileEntityInterface,
+    id: string,
+  ): Promise<ProfileEntityInterface> {
     return new Promise((resolve) => {
       for (let index = 0; index < arrProfiles.length; index++) {
         if (arrProfiles[index].id === id) {
@@ -33,7 +36,7 @@ export class ProfileRepository implements Repository {
     });
   }
 
-  delete(id: string): Promise<Profile> {
+  delete(id: string): Promise<ProfileEntityInterface> {
     return new Promise((resolve) => {
       for (let index = 0; index < arrProfiles.length; index++) {
         if (arrProfiles[index].id === id) {
