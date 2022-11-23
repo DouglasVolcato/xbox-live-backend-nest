@@ -1,9 +1,9 @@
 import { UserDto } from 'src/domain/dtos/user-dto';
-import { Repository } from 'src/domain/repositories/repository';
-import { UpdateUseCase } from 'src/domain/useCases/update-useCase';
+import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
+import { UpdateUserUseCaseInterface } from 'src/data/useCases/abstract/user/update-user-interface';
 
-export class UpdateUserUseCase implements UpdateUseCase {
-  constructor(private readonly repository: Repository) {}
+export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
+  constructor(private readonly repository: UserRepositoryInterface) {}
 
   async execute(body: UserDto, id: string): Promise<boolean> {
     const foundUser = await this.repository.getOne(id);

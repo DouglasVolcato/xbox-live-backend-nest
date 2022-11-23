@@ -1,10 +1,10 @@
 import { UserDto } from 'src/domain/dtos/user-dto';
-import { Repository } from 'src/domain/repositories/repository';
-import { CreateUseCase } from 'src/domain/useCases/create-useCase';
+import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
+import { CreateUserUseCaseInterface } from 'src/data/useCases/abstract/user/create-user-interface';
 import { UserEntity } from 'src/entities/user-entity';
 
-export class CreateUserUseCase implements CreateUseCase {
-  constructor(private readonly repository: Repository) {}
+export class CreateUserUseCase implements CreateUserUseCaseInterface {
+  constructor(private readonly repository: UserRepositoryInterface) {}
 
   async execute(body: UserDto): Promise<boolean> {
     const userBody = new UserEntity(body);

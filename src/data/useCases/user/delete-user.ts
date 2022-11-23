@@ -1,8 +1,8 @@
-import { Repository } from 'src/domain/repositories/repository';
-import { DeleteUseCase } from 'src/domain/useCases/delete-useCase';
+import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
+import { DeleteUserUseCaseInterface } from 'src/data/useCases/abstract/user/delete-user-interface';
 
-export class DeleteUserUseCase implements DeleteUseCase {
-  constructor(private readonly repository: Repository) {}
+export class DeleteUserUseCase implements DeleteUserUseCaseInterface {
+  constructor(private readonly repository: UserRepositoryInterface) {}
 
   async execute(id: string): Promise<boolean> {
     const deletedUser = await this.repository.delete(id);

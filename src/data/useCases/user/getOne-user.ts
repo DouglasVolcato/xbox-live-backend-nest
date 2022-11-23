@@ -1,13 +1,11 @@
-import { Game } from 'src/domain/entities/game-entity';
-import { Profile } from 'src/domain/entities/profile-entity';
-import { User } from 'src/domain/entities/user-entity';
-import { Repository } from 'src/domain/repositories/repository';
-import { GetOneUseCase } from 'src/domain/useCases/getOne-useCase';
+import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
+import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
+import { GetOneUserUseCaseInterface } from 'src/data/useCases/abstract/user/getOne-user-interface';
 
-export class GetOneUserUseCase implements GetOneUseCase {
-  constructor(private readonly repository: Repository) {}
+export class GetOneUserUseCase implements GetOneUserUseCaseInterface {
+  constructor(private readonly repository: UserRepositoryInterface) {}
 
-  async execute(id: string): Promise<Game | Profile | User | void> {
+  async execute(id: string): Promise<UserEntityInterface | void> {
     return await this.repository.getOne(id);
   }
 }
