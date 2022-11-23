@@ -1,4 +1,4 @@
-import { GetOneProfileUseCaseInterface } from '../abstract/profile/getOne-profile-interface';
+import { GetOneProfileUseCaseInterface } from '../../abstract/profile/getOne-profile-interface';
 import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
 import { ProfileEntityInterface } from 'src/domain/entities/profile-entity-interface';
 

@@ -1,4 +1,4 @@
-import { UpdateProfileUseCaseInterface } from '../abstract/profile/update-profile-interface';
+import { UpdateProfileUseCaseInterface } from '../../abstract/profile/update-profile-interface';
 import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
 import { ProfileDto } from 'src/domain/dtos/profile-dto';
 

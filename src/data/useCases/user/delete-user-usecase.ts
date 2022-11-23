@@ -1,5 +1,5 @@
 import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
-import { DeleteUserUseCaseInterface } from 'src/data/useCases/abstract/user/delete-user-interface';
+import { DeleteUserUseCaseInterface } from 'src/data/abstract/user/delete-user-interface';
 
 export class DeleteUserUseCase implements DeleteUserUseCaseInterface {
   constructor(private readonly repository: UserRepositoryInterface) {}
