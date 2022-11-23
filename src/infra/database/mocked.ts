@@ -1,7 +1,7 @@
-import { Game } from 'src/domain/entities/game-entity';
-import { Profile } from 'src/domain/entities/profile-entity';
-import { User } from 'src/domain/entities/user-entity';
+import { GameEntityInterface } from 'src/domain/entities/game-entity-interface';
+import { ProfileEntityInterface } from 'src/domain/entities/profile-entity-interface';
+import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
 
-export const arrUsers: User[] = [];
-export const arrProfiles: Profile[] = [];
-export const arrGames: Game[] = [];
+export const arrUsers: UserEntityInterface[] = [];
+export const arrProfiles: ProfileEntityInterface[] = [];
+export const arrGames: GameEntityInterface[] = [];
