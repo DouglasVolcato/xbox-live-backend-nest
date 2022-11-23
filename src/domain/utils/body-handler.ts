@@ -3,6 +3,6 @@ import { Profile } from '../entities/profile-entity';
 import { User } from '../entities/user-entity';
 
 export interface BodyHandler {
-  validateBody(): Promise<boolean>;
-  getBody(): Promise<Game | User | Profile>;
+  validateBody(): void;
+  getBody(): Game | User | Profile;
 }
