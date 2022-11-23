@@ -3,5 +3,5 @@ import { ProfileDto } from '../dtos/profile-dto';
 import { UserDto } from '../dtos/user-dto';
 
 export interface UpdateUseCase {
-  execute(body: GameDto | ProfileDto | UserDto): Promise<boolean>;
+  execute(body: GameDto | ProfileDto | UserDto, id: string): Promise<boolean>;
 }
