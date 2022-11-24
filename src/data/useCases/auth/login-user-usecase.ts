@@ -4,7 +4,7 @@ import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-re
 import { HasherAdapter } from 'src/utils/adapters/hasher-adapter';
 import { TokenHandlerAdapter } from 'src/utils/adapters/token-handler-adapter';
 
-export class LoginUserUseCase implements LoginAuthUseCaseInterface {
+export class LoginAuthUseCase implements LoginAuthUseCaseInterface {
   constructor(private readonly repository: UserRepositoryInterface) {}
 
   async execute(body: LoginDto): Promise<string | null> {
