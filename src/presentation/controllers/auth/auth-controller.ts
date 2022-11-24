@@ -1,5 +1,5 @@
 import { LoginAuthUseCaseInterface } from 'src/data/abstract/auth/login-auth-interface';
-import { AuthControllerInterface } from 'src/presentation/abstract/auth-controller-interface';
+import { AuthControllerInterface } from 'src/presentation/abstract/controllers/auth-controller-interface';
 import { HttpResponseHandler } from 'src/utils/handlers/http/http-response-handler';
 import { HttpRequest, HttpResponse } from '../game/interface-imports';
 
