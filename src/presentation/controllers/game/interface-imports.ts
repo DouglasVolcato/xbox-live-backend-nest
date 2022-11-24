@@ -4,7 +4,7 @@ export * from 'src/data/abstract/game/getAll-game-interface';
 export * from 'src/data/abstract/game/getOne-game-interface';
 export * from 'src/data/abstract/game/update-game-interface';
 export * from 'src/domain/entities/game-entity-interface';
-export * from '../../abstract/game-controller.interface';
+export * from '../../abstract/controllers/game-controller.interface';
 export * from 'src/domain/dtos/game-dto';
 export * from 'src/domain/dtos/message-dto';
 export * from 'src/domain/http/http-response';
