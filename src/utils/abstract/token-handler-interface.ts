@@ -1,4 +1,4 @@
 export interface TokenHandlerInterface {
-  generateToken(): string;
-  validateToken(token: string): Promise<boolean>;
+  generateToken(userId: string): string;
+  validateToken(token: string): void;
 }
