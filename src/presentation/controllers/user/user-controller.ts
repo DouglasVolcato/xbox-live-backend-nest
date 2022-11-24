@@ -4,10 +4,9 @@ import {
   GetOneUserByEmailUseCaseInterface,
   GetOneUserByIdUseCaseInterface,
   UpdateUserUseCaseInterface,
-  GetAllGamesUseCaseInterface,
   UserControllerInterface,
   HttpRequest,
-  HttpResponse,
+  HttpResponse,GetAllUsersUseCaseInterface
 } from './interface-imports';
 import { HttpResponseHandler } from 'src/utils/handlers/http/http-response-handler';
 
@@ -16,7 +15,7 @@ export class UserController implements UserControllerInterface {
     private readonly createUserUseCase: CreateUserUseCaseInterface,
     private readonly getOneUserByEmailUseCase: GetOneUserByEmailUseCaseInterface,
     private readonly getOneUserByIdUseCase: GetOneUserByIdUseCaseInterface,
-    private readonly getAllUsersUseCase: GetAllGamesUseCaseInterface,
+    private readonly getAllUsersUseCase: GetAllUsersUseCaseInterface,
     private readonly updateUserUseCase: UpdateUserUseCaseInterface,
     private readonly deleteUserUseCase: DeleteUserUseCaseInterface,
   ) {}

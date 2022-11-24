@@ -5,8 +5,10 @@ import { GetOneUserByEmailUseCase } from 'src/data/useCases/user/getOne-user-byE
 import { GetOneUserByIdUseCase } from 'src/data/useCases/user/getOne-user-byId-usecase';
 import { UpdateUserUseCase } from 'src/data/useCases/user/update-user-usecase';
 import { UserRepository } from 'src/infra/repositories/user-repository';
+import { UserControllerInterface } from 'src/presentation/abstract/controllers/user-controller-interface';
+import { UserController } from 'src/presentation/controllers/user/user-controller';
 
-export function makeUserServiceFactory() {
+export function makeUserControllerFactory(): UserControllerInterface {
   const repository = new UserRepository();
 
   const createUserUseCase = new CreateUserUseCase(repository);
@@ -16,12 +18,14 @@ export function makeUserServiceFactory() {
   const updateUserUseCase = new UpdateUserUseCase(repository);
   const deleteUserUseCase = new DeleteUserUseCase(repository);
 
-  return {
+  const userController = new UserController(
     createUserUseCase,
     getOneUserByEmailUseCase,
     getOneUserByIdUseCase,
     getAllUsersUseCase,
     updateUserUseCase,
     deleteUserUseCase,
-  };
+  );
+
+  return userController;
 }
