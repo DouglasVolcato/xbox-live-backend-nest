@@ -1,6 +1,7 @@
 import { UserDto } from 'src/domain/dtos/user-dto';
 import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
 import { UserValidatorInterface } from 'src/entities/abstract/user-validator-interface';
+import { HasherAdapter } from 'src/utils/adapters/hasher-adapter';
 import { IdGeneratorAdapter } from 'src/utils/adapters/id-generator-adapter';
 
 export class UserEntity implements UserValidatorInterface {
@@ -14,12 +15,17 @@ export class UserEntity implements UserValidatorInterface {
     }
   }
 
-  getBody(): UserEntityInterface {
+  async getBody(): Promise<UserEntityInterface> {
+    const idGenerator = new IdGeneratorAdapter();
+    const hasher = new HasherAdapter();
+    const generatedId = idGenerator.generateId();
+    const hashedPassword = await hasher.hash(this.user.password, 10);
+
     return {
-      id: new IdGeneratorAdapter().generateId(),
+      id: generatedId,
       name: this.user.name,
       email: this.user.email,
-      password: this.user.password,
+      password: hashedPassword,
       cpf: this.user.cpf && '',
       isAdmin: this.user.isAdmin && true,
     };

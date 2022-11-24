@@ -9,8 +9,9 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
   async execute(body: UserDto): Promise<boolean> {
     const userBody = new UserEntity(body);
     userBody.validateBody();
+    const newUser = await userBody.getBody();
 
-    const createdUser = await this.repository.create(userBody.getBody());
+    const createdUser = await this.repository.create(newUser);
     switch (createdUser) {
       case createdUser:
         return true;
