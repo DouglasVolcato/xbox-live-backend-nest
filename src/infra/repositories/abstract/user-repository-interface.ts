@@ -2,7 +2,8 @@ import { UserEntityInterface } from '../../../domain/entities/user-entity-interf
 
 export interface UserRepositoryInterface {
   create(body: UserEntityInterface): Promise<UserEntityInterface>;
-  getOne(id: string): Promise<UserEntityInterface | void>;
+  getOneByEmail(email: string): Promise<UserEntityInterface | void>;
+  getOneById(id: string): Promise<UserEntityInterface | void>;
   getAll(): Promise<UserEntityInterface[] | []>;
   update(
     body: UserEntityInterface,

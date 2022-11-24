@@ -10,7 +10,14 @@ export class UserRepository implements UserRepositoryInterface {
     });
   }
 
-  getOne(id: string): Promise<UserEntityInterface> {
+  getOneByEmail(email: string): Promise<UserEntityInterface> {
+    return new Promise((resolve) => {
+      const foundUser = arrUsers.find((user) => user.email === email);
+      resolve(foundUser);
+    });
+  }
+
+  getOneById(id: string): Promise<UserEntityInterface> {
     return new Promise((resolve) => {
       const foundUser = arrUsers.find((user) => user.id === id);
       resolve(foundUser);
