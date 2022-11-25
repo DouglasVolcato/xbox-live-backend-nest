@@ -6,7 +6,7 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   constructor(private readonly repository: UserRepositoryInterface) {}
 
   async execute(body: UserDto, id: string): Promise<boolean> {
-    const foundUser = await this.repository.getOne(id);
+    const foundUser = await this.repository.getOneById(id);
     if (foundUser) {
       const updatedBody = Object.assign(foundUser, body);
       const updatedUser = await this.repository.update(updatedBody, id);
