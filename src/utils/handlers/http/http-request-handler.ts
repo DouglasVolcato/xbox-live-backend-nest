@@ -6,10 +6,26 @@ export class HttpRequestHandler implements HttpRequestHandlerInterface {
   constructor(private readonly clientRequest: RequestBodyDto) {}
 
   request(): HttpRequest {
-    return {
-      authorization: this.clientRequest.headers.authorization && '',
-      id: this.clientRequest.params.id && '',
-      body: this.clientRequest.body,
-    };
+    const httpRequest: HttpRequest = {};
+
+    try {
+      httpRequest.authorization = this.clientRequest.headers.authorization;
+    } catch (error) {
+      httpRequest.authorization = '';
+    }
+
+    try {
+      httpRequest.id = this.clientRequest.params.id;
+    } catch (error) {
+      httpRequest.id = '';
+    }
+
+    try {
+      httpRequest.body = this.clientRequest.body;
+    } catch (error) {
+      httpRequest.body = {};
+    }
+
+    return httpRequest;
   }
 }
