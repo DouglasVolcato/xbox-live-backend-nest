@@ -18,7 +18,7 @@ export class ProfileController {
   @Post('create-profile')
   async create(@Body() body: ProfileDto) {
     const http = new HttpRequestHandler({ body });
-    return await profile.update(http.request());
+    return await profile.create(http.request());
   }
 
   @Get('get-all-profiles')
@@ -27,20 +27,20 @@ export class ProfileController {
   }
 
   @Get('get-profile/:id')
-  async getOneById(@Param() id: string): Promise<HttpResponse> {
+  async getOneById(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
     return await profile.getOne(http.request());
   }
 
   @Delete('delete-profile/:id')
-  async delete(@Param() id: string): Promise<HttpResponse> {
+  async delete(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
     return await profile.delete(http.request());
   }
 
   @Patch('update-profile/:id')
   async update(
-    @Param(':id') id: string,
+    @Param('id') id: string,
     @Body() body: ProfileDto,
   ): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id }, body });

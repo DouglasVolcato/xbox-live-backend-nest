@@ -18,7 +18,7 @@ export class GameController {
   @Post('create-game')
   async create(@Body() body: GameDto) {
     const http = new HttpRequestHandler({ body });
-    return await game.update(http.request());
+    return await game.create(http.request());
   }
 
   @Get('get-all-games')
@@ -27,20 +27,20 @@ export class GameController {
   }
 
   @Get('get-game/:id')
-  async getOneById(@Param() id: string): Promise<HttpResponse> {
+  async getOneById(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
     return await game.getOne(http.request());
   }
 
   @Delete('delete-game/:id')
-  async delete(@Param() id: string): Promise<HttpResponse> {
+  async delete(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
     return await game.delete(http.request());
   }
 
   @Patch('update-game/:id')
   async update(
-    @Param(':id') id: string,
+    @Param('id') id: string,
     @Body() body: GameDto,
   ): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id }, body });
