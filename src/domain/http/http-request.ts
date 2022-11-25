@@ -13,7 +13,7 @@ export interface HttpRequest {
     name?: string;
     email?: string;
     password?: string;
-    cpf?: number;
+    cpf?: string;
     isAdmin?: boolean;
   };
 }

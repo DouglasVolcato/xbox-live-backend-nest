@@ -15,7 +15,7 @@ export interface RequestBodyDto {
     name?: string;
     email?: string;
     password?: string;
-    cpf?: number;
+    cpf?: string;
     isAdmin?: boolean;
   };
 }
