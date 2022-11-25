@@ -11,11 +11,10 @@ export class CreateProfileUseCase implements CreateProfileUseCaseInterface {
     profileBody.validateBody();
 
     const createdProfile = await this.repository.create(profileBody.getBody());
-    switch (createdProfile) {
-      case createdProfile:
-        return true;
-      default:
-        return false;
+    if (createdProfile) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

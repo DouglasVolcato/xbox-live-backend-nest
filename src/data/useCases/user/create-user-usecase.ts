@@ -12,11 +12,10 @@ export class CreateUserUseCase implements CreateUserUseCaseInterface {
     const newUser = await userBody.getBody();
 
     const createdUser = await this.repository.create(newUser);
-    switch (createdUser) {
-      case createdUser:
-        return true;
-      default:
-        return false;
+    if (createdUser) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

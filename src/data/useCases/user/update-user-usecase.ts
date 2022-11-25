@@ -10,11 +10,10 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
     if (foundUser) {
       const updatedBody = Object.assign(foundUser, body);
       const updatedUser = await this.repository.update(updatedBody, id);
-      switch (updatedUser) {
-        case updatedUser:
-          return true;
-        default:
-          return false;
+      if (updatedUser) {
+        return true;
+      } else {
+        return false;
       }
     } else {
       return false;

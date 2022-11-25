@@ -6,11 +6,10 @@ export class DeleteGameUseCase implements DeleteGameUseCaseInterface {
 
   async execute(id: string): Promise<boolean> {
     const deletedGame = await this.repository.delete(id);
-    switch (deletedGame) {
-      case deletedGame:
-        return true;
-      default:
-        return false;
+    if (deletedGame) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

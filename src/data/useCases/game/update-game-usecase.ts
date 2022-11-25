@@ -10,11 +10,10 @@ export class UpdateGameUseCase implements UpdateGameUseCaseInterface {
     if (foundGame) {
       const updatedBody = Object.assign(foundGame, body);
       const updatedGame = await this.repository.update(updatedBody, id);
-      switch (updatedGame) {
-        case updatedGame:
-          return true;
-        default:
-          return false;
+      if (updatedGame) {
+        return true;
+      } else {
+        return false;
       }
     } else {
       return false;

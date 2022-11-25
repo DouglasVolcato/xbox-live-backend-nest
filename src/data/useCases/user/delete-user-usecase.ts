@@ -6,11 +6,10 @@ export class DeleteUserUseCase implements DeleteUserUseCaseInterface {
 
   async execute(id: string): Promise<boolean> {
     const deletedUser = await this.repository.delete(id);
-    switch (deletedUser) {
-      case deletedUser:
-        return true;
-      default:
-        return false;
+    if (deletedUser) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

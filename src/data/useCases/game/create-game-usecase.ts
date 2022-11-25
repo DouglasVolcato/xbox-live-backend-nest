@@ -11,11 +11,10 @@ export class CreateGameUseCase implements CreateGameUseCaseInterface {
     gameBody.validateBody();
 
     const createdGame = await this.repository.create(gameBody.getBody());
-    switch (createdGame) {
-      case createdGame:
-        return true;
-      default:
-        return false;
+    if (createdGame) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

@@ -10,11 +10,10 @@ export class UpdateProfileUseCase implements UpdateProfileUseCaseInterface {
     if (foundProfile) {
       const updatedBody = Object.assign(foundProfile, body);
       const updatedProfile = await this.repository.update(updatedBody, id);
-      switch (updatedProfile) {
-        case updatedProfile:
-          return true;
-        default:
-          return false;
+      if (updatedProfile) {
+        return true;
+      } else {
+        return false;
       }
     } else {
       return false;

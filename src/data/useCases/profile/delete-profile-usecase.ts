@@ -6,11 +6,10 @@ export class DeleteProfileUseCase implements DeleteProfileUseCaseInterface {
 
   async execute(id: string): Promise<boolean> {
     const deletedProfile = await this.repository.delete(id);
-    switch (deletedProfile) {
-      case deletedProfile:
-        return true;
-      default:
-        return false;
+    if (deletedProfile) {
+      return true;
+    } else {
+      return false;
     }
   }
 }
