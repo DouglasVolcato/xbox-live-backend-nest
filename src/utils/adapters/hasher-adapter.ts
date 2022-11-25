@@ -1,4 +1,4 @@
-import { HasherInterface } from '../abstract/hasher-interface';
+import { HasherInterface } from '../abstract/adapters/hasher-interface';
 import { hash, compare } from 'bcrypt';
 
 export class HasherAdapter implements HasherInterface {

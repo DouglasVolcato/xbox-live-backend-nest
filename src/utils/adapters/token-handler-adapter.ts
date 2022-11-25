@@ -1,4 +1,4 @@
-import { TokenHandlerInterface } from '../abstract/token-handler-interface';
+import { TokenHandlerInterface } from '../abstract/adapters/token-handler-interface';
 import * as jwt from 'jsonwebtoken';
 import { GetOneUserByIdUseCase } from 'src/data/useCases/user/getOne-user-byId-usecase';
 import { UserRepository } from 'src/infra/repositories/user-repository';
