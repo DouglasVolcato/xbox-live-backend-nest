@@ -36,8 +36,8 @@ export class GameRepository implements GameRepositoryInterface {
     return new Promise((resolve) => {
       for (let index = 0; index < arrGames.length; index++) {
         if (arrGames[index].id == id) {
-          arrGames.splice(index, 1);
-          resolve(arrGames[index]);
+          const deletedItem = arrGames.splice(index, 1);
+          resolve(deletedItem[0]);
         }
       }
     });

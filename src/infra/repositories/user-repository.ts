@@ -44,8 +44,8 @@ export class UserRepository implements UserRepositoryInterface {
     return new Promise((resolve) => {
       for (let index = 0; index < arrUsers.length; index++) {
         if (arrUsers[index].id === id) {
-          arrUsers.splice(index, 1);
-          resolve(arrUsers[index]);
+          const deletedItem = arrUsers.splice(index, 1);
+          resolve(deletedItem[0]);
         }
       }
     });

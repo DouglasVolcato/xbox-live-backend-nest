@@ -40,8 +40,8 @@ export class ProfileRepository implements ProfileRepositoryInterface {
     return new Promise((resolve) => {
       for (let index = 0; index < arrProfiles.length; index++) {
         if (arrProfiles[index].id === id) {
-          arrProfiles.splice(index, 1);
-          resolve(arrProfiles[index]);
+          const deletedItem = arrProfiles.splice(index, 1);
+          resolve(deletedItem[0]);
         }
       }
     });
