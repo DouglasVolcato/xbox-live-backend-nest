@@ -3,6 +3,6 @@ import { v4 as uuid } from 'uuid';
 
 export class IdGeneratorAdapter implements IdGeneratorInterface {
   generateId(): string {
-    return uuid.toString();
+    return uuid();
   }
 }
