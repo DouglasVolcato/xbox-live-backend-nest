@@ -11,8 +11,8 @@ export class AuthController implements AuthControllerInterface {
     const token = await this.loginAuthUseCase.execute({ email, password });
 
     if (token) {
-      const http = new HttpResponseHandler({ token }, 200);
-      return http.response();
+      const http = new HttpResponseHandler({ token });
+      return http.ok();
     }
   }
 }

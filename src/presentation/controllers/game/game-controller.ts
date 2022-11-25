@@ -24,8 +24,8 @@ export class GameController implements GameControllerInterface {
     const created = await this.createGameUseCase.execute(body);
 
     if (created) {
-      const http = new HttpResponseHandler({ message: 'Game created.' }, 200);
-      return http.response();
+      const http = new HttpResponseHandler({ message: 'Game created.' });
+      return http.created();
     }
   }
 
@@ -34,8 +34,8 @@ export class GameController implements GameControllerInterface {
     const foundGame = await this.getOneGameUseCase.execute(id);
 
     if (foundGame) {
-      const http = new HttpResponseHandler(foundGame, 200);
-      return http.response();
+      const http = new HttpResponseHandler(foundGame);
+      return http.ok();
     }
   }
 
@@ -43,8 +43,8 @@ export class GameController implements GameControllerInterface {
     const foundGames = await this.getAllGamesUseCase.execute();
 
     if (foundGames) {
-      const http = new HttpResponseHandler(foundGames, 200);
-      return http.response();
+      const http = new HttpResponseHandler(foundGames);
+      return http.ok();
     }
   }
 
@@ -54,8 +54,8 @@ export class GameController implements GameControllerInterface {
     const updated = await this.updateGameUseCase.execute(body, id);
 
     if (updated) {
-      const http = new HttpResponseHandler({ message: 'Game updated.' }, 200);
-      return http.response();
+      const http = new HttpResponseHandler({ message: 'Game updated.' });
+      return http.ok();
     }
   }
 
@@ -64,8 +64,8 @@ export class GameController implements GameControllerInterface {
     const deleted = await this.deleteGameUseCase.execute(id);
 
     if (deleted) {
-      const http = new HttpResponseHandler({ message: 'Game deleted.' }, 200);
-      return http.response();
+      const http = new HttpResponseHandler({ message: 'Game deleted.' });
+      return http.ok();
     }
   }
 }

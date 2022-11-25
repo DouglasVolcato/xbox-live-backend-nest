@@ -24,11 +24,8 @@ export class ProfileController implements ProfileControllerInterface {
     const created = await this.createProfileUseCase.execute(body);
 
     if (created) {
-      const http = new HttpResponseHandler(
-        { message: 'Profile created.' },
-        200,
-      );
-      return http.response();
+      const http = new HttpResponseHandler({ message: 'Profile created.' });
+      return http.created();
     }
   }
 
@@ -37,8 +34,8 @@ export class ProfileController implements ProfileControllerInterface {
     const foundProfile = await this.getOneProfileUseCase.execute(id);
 
     if (foundProfile) {
-      const http = new HttpResponseHandler(foundProfile, 200);
-      return http.response();
+      const http = new HttpResponseHandler(foundProfile);
+      return http.ok();
     }
   }
 
@@ -46,8 +43,8 @@ export class ProfileController implements ProfileControllerInterface {
     const foundProfiles = await this.getAllProfilesUseCase.execute();
 
     if (foundProfiles) {
-      const http = new HttpResponseHandler(foundProfiles, 200);
-      return http.response();
+      const http = new HttpResponseHandler(foundProfiles);
+      return http.ok();
     }
   }
 
@@ -57,11 +54,8 @@ export class ProfileController implements ProfileControllerInterface {
     const updated = await this.updateProfileUseCase.execute(body, id);
 
     if (updated) {
-      const http = new HttpResponseHandler(
-        { message: 'Profile updated.' },
-        200,
-      );
-      return http.response();
+      const http = new HttpResponseHandler({ message: 'Profile updated.' });
+      return http.ok();
     }
   }
 
@@ -70,11 +64,8 @@ export class ProfileController implements ProfileControllerInterface {
     const deleted = await this.deleteProfileUseCase.execute(id);
 
     if (deleted) {
-      const http = new HttpResponseHandler(
-        { message: 'Profile deleted.' },
-        200,
-      );
-      return http.response();
+      const http = new HttpResponseHandler({ message: 'Profile deleted.' });
+      return http.ok();
     }
   }
 }
