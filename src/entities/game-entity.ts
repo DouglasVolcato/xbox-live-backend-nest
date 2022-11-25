@@ -26,9 +26,9 @@ export class GameEntity implements GameValidatorInterface {
       coverImageUrl: this.game.coverImageUrl,
       description: this.game.description,
       year: this.game.year,
-      imdbScore: this.game.imdbScore && 0,
-      trailerYouTubeUrl: this.game.trailerYouTubeUrl && '',
-      gameplayYouTubeUrl: this.game.gameplayYouTubeUrl && '',
+      imdbScore: this.game.imdbScore ?? 0,
+      trailerYouTubeUrl: this.game.trailerYouTubeUrl ?? '',
+      gameplayYouTubeUrl: this.game.gameplayYouTubeUrl ?? '',
     };
   }
 }
