@@ -20,11 +20,11 @@ export class UserEntity implements UserValidatorInterface {
     }
   }
 
-  async getBody(): Promise<UserEntityInterface> {
+  getBody(): UserEntityInterface {
     const idGenerator = new IdGeneratorAdapter();
     const hasher = new HasherAdapter();
     const generatedId = idGenerator.generateId();
-    const hashedPassword = await hasher.hash(this.user.password, 10);
+    const hashedPassword = hasher.hash(this.user.password, 10);
 
     return {
       id: generatedId,
