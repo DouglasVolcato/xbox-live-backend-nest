@@ -7,41 +7,58 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { ProfileDto } from 'src/domain/dtos/profile-dto';
 import { HttpResponse } from 'src/domain/http/http-response';
 import { makeProfileControllerFactory } from 'src/main/factories/profile-controller-factory';
 import { HttpRequestHandler } from 'src/utils/handlers/http/http-request-handler';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { NestProfileDto } from './profile.dto';
 const profile = makeProfileControllerFactory();
 
+@ApiTags('profile')
 @Controller('profile')
 export class ProfileController {
+  @ApiOperation({
+    summary: 'Create a profile.',
+  })
   @Post('create-profile')
-  async create(@Body() body: ProfileDto) {
+  async create(@Body() body: NestProfileDto) {
     const http = new HttpRequestHandler({ body });
     return await profile.create(http.request());
   }
 
+  @ApiOperation({
+    summary: 'Get all profiles.',
+  })
   @Get('get-all-profiles')
   async getAll(): Promise<HttpResponse> {
     return await profile.getAll();
   }
 
+  @ApiOperation({
+    summary: 'Get one profile by ID.',
+  })
   @Get('get-profile/:id')
   async getOneById(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
     return await profile.getOne(http.request());
   }
 
+  @ApiOperation({
+    summary: 'Delete a profile.',
+  })
   @Delete('delete-profile/:id')
   async delete(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
     return await profile.delete(http.request());
   }
 
+  @ApiOperation({
+    summary: 'Update a profile.',
+  })
   @Patch('update-profile/:id')
   async update(
     @Param('id') id: string,
-    @Body() body: ProfileDto,
+    @Body() body: NestProfileDto,
   ): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id }, body });
     return await profile.update(http.request());
