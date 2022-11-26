@@ -3,15 +3,20 @@ import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
 import { UserValidatorInterface } from 'src/entities/abstract/user-validator-interface';
 import { HasherAdapter } from 'src/utils/adapters/hasher-adapter';
 import { IdGeneratorAdapter } from 'src/utils/adapters/id-generator-adapter';
+import { MissingParamError } from 'src/utils/errors';
 
 export class UserEntity implements UserValidatorInterface {
   constructor(private readonly user: UserDto) {}
 
   validateBody(): void {
-    if (!this.user.name || !this.user.password || !this.user.email) {
-      throw new Error(
-        'Missing fields for user creation. Make sure you sent, at least, name, password and email.',
-      );
+    if (!this.user.name) {
+      throw new MissingParamError('Name');
+    }
+    if (!this.user.password) {
+      throw new MissingParamError('Password');
+    }
+    if (!this.user.email) {
+      throw new MissingParamError('Email');
     }
   }
 

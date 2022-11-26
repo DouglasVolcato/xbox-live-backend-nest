@@ -7,12 +7,22 @@ export class AuthController implements AuthControllerInterface {
   constructor(private readonly loginAuthUseCase: LoginAuthUseCaseInterface) {}
 
   async login(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { email, password } = httpRequest.body;
-    const token = await this.loginAuthUseCase.execute({ email, password });
+    try {
+      const { email, password } = httpRequest.body;
+      const token = await this.loginAuthUseCase.execute({ email, password });
 
-    if (token) {
-      const http = new HttpResponseHandler({ token });
-      return http.ok();
+      if (token) {
+        const http = new HttpResponseHandler({ token });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({
+          message: 'Invalid information.',
+        });
+        return http.unauthorized();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler({ message: error });
+      return http.unauthorized();
     }
   }
 }

@@ -2,6 +2,7 @@ import { TokenHandlerInterface } from '../abstract/adapters/token-handler-interf
 import * as jwt from 'jsonwebtoken';
 import { GetOneUserByIdUseCase } from 'src/data/useCases/user/getOne-user-byId-usecase';
 import { UserRepository } from 'src/infra/repositories/user-repository';
+import { InvalidParamError } from '../errors';
 
 export class TokenHandlerAdapter implements TokenHandlerInterface {
   generateToken(userId: string): string {
@@ -11,13 +12,13 @@ export class TokenHandlerAdapter implements TokenHandlerInterface {
   }
 
   validateToken(token: string): void {
-    const teste = jwt.verify(
+    jwt.verify(
       token,
       process.env.SECRET,
       async (error, decoded: { id: string }) => {
         try {
           if (error) {
-            throw new Error('Invalid token.');
+            throw new InvalidParamError('Token');
           }
 
           const userRepository = new UserRepository();
@@ -25,15 +26,15 @@ export class TokenHandlerAdapter implements TokenHandlerInterface {
           const user = await getUserByIdUseCase.execute(decoded.id);
 
           if (!user || !user.id) {
-            throw new Error('Invalid token.');
+            throw new InvalidParamError('Token');
           }
 
           return;
         } catch (error) {
-          throw new Error('Invalid token.');
+          throw new InvalidParamError('Token');
         }
       },
     );
-    return teste;
+    return;
   }
 }

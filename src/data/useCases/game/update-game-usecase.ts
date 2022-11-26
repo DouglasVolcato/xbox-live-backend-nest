@@ -1,6 +1,7 @@
 import { ProfileDto } from 'src/domain/dtos/profile-dto';
 import { UpdateGameUseCaseInterface } from 'src/data/abstract/game/update-game-interface';
 import { GameRepositoryInterface } from 'src/infra/repositories/abstract/game-repository-interface';
+import { InvalidParamError } from 'src/utils/errors';
 
 export class UpdateGameUseCase implements UpdateGameUseCaseInterface {
   constructor(private readonly repository: GameRepositoryInterface) {}
@@ -16,7 +17,7 @@ export class UpdateGameUseCase implements UpdateGameUseCaseInterface {
         return false;
       }
     } else {
-      return false;
+      throw new InvalidParamError('ID');
     }
   }
 }

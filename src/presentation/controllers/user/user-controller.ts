@@ -22,62 +22,110 @@ export class UserController implements UserControllerInterface {
   ) {}
 
   async create(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const body = httpRequest.body;
-    const created = await this.createUserUseCase.execute(body);
+    try {
+      const body = httpRequest.body;
+      const created = await this.createUserUseCase.execute(body);
 
-    if (created) {
-      const http = new HttpResponseHandler({ message: 'User created.' });
-      return http.created();
+      if (created) {
+        const http = new HttpResponseHandler({ message: 'User created.' });
+        return http.created();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 
   async getOneByEmail(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const email = httpRequest.body.email;
-    const foundUser = await this.getOneUserByEmailUseCase.execute(email);
+    try {
+      const email = httpRequest.body.email;
+      const foundUser = await this.getOneUserByEmailUseCase.execute(email);
 
-    if (foundUser) {
-      const http = new HttpResponseHandler(foundUser);
-      return http.ok();
+      if (foundUser) {
+        const http = new HttpResponseHandler(foundUser);
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'Not found.' });
+        return http.notFound();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.notFound();
     }
   }
 
   async getOneById(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const foundUser = await this.getOneUserByIdUseCase.execute(id);
+    try {
+      const id = httpRequest.id;
+      const foundUser = await this.getOneUserByIdUseCase.execute(id);
 
-    if (foundUser) {
-      const http = new HttpResponseHandler(foundUser);
-      return http.ok();
+      if (foundUser) {
+        const http = new HttpResponseHandler(foundUser);
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'Not found.' });
+        return http.notFound();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.notFound();
     }
   }
 
   async getAll(): Promise<HttpResponse> {
-    const foundUsers = await this.getAllUsersUseCase.execute();
+    try {
+      const foundUsers = await this.getAllUsersUseCase.execute();
 
-    if (foundUsers) {
-      const http = new HttpResponseHandler(foundUsers);
-      return http.ok();
+      if (foundUsers.length > 0) {
+        const http = new HttpResponseHandler(foundUsers);
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'Not found.' });
+        return http.notFound();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.notFound();
     }
   }
 
   async update(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const body = httpRequest.body;
-    const updated = await this.updateUserUseCase.execute(body, id);
+    try {
+      const id = httpRequest.id;
+      const body = httpRequest.body;
+      const updated = await this.updateUserUseCase.execute(body, id);
 
-    if (updated) {
-      const http = new HttpResponseHandler({ message: 'User updated.' });
-      return http.ok();
+      if (updated) {
+        const http = new HttpResponseHandler({ message: 'User updated.' });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 
   async delete(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const deleted = await this.deleteUserUseCase.execute(id);
+    try {
+      const id = httpRequest.id;
+      const deleted = await this.deleteUserUseCase.execute(id);
 
-    if (deleted) {
-      const http = new HttpResponseHandler({ message: 'User deleted.' });
-      return http.ok();
+      if (deleted) {
+        const http = new HttpResponseHandler({ message: 'User deleted.' });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 }

@@ -20,52 +20,92 @@ export class ProfileController implements ProfileControllerInterface {
   ) {}
 
   async create(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const body = httpRequest.body;
-    const created = await this.createProfileUseCase.execute(body);
+    try {
+      const body = httpRequest.body;
+      const created = await this.createProfileUseCase.execute(body);
 
-    if (created) {
-      const http = new HttpResponseHandler({ message: 'Profile created.' });
-      return http.created();
+      if (created) {
+        const http = new HttpResponseHandler({ message: 'Profile created.' });
+        return http.created();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 
   async getOne(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const foundProfile = await this.getOneProfileUseCase.execute(id);
+    try {
+      const id = httpRequest.id;
+      const foundProfile = await this.getOneProfileUseCase.execute(id);
 
-    if (foundProfile) {
-      const http = new HttpResponseHandler(foundProfile);
-      return http.ok();
+      if (foundProfile) {
+        const http = new HttpResponseHandler(foundProfile);
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'Not found.' });
+        return http.notFound();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.notFound();
     }
   }
 
   async getAll(): Promise<HttpResponse> {
-    const foundProfiles = await this.getAllProfilesUseCase.execute();
+    try {
+      const foundProfiles = await this.getAllProfilesUseCase.execute();
 
-    if (foundProfiles) {
-      const http = new HttpResponseHandler(foundProfiles);
-      return http.ok();
+      if (foundProfiles.length > 0) {
+        const http = new HttpResponseHandler(foundProfiles);
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'Not found.' });
+        return http.notFound();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.notFound();
     }
   }
 
   async update(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const body = httpRequest.body;
-    const updated = await this.updateProfileUseCase.execute(body, id);
+    try {
+      const id = httpRequest.id;
+      const body = httpRequest.body;
+      const updated = await this.updateProfileUseCase.execute(body, id);
 
-    if (updated) {
-      const http = new HttpResponseHandler({ message: 'Profile updated.' });
-      return http.ok();
+      if (updated) {
+        const http = new HttpResponseHandler({ message: 'Profile updated.' });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 
   async delete(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const deleted = await this.deleteProfileUseCase.execute(id);
+    try {
+      const id = httpRequest.id;
+      const deleted = await this.deleteProfileUseCase.execute(id);
 
-    if (deleted) {
-      const http = new HttpResponseHandler({ message: 'Profile deleted.' });
-      return http.ok();
+      if (deleted) {
+        const http = new HttpResponseHandler({ message: 'Profile deleted.' });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 }

@@ -20,52 +20,92 @@ export class GameController implements GameControllerInterface {
   ) {}
 
   async create(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const body = httpRequest.body;
-    const created = await this.createGameUseCase.execute(body);
+    try {
+      const body = httpRequest.body;
+      const created = await this.createGameUseCase.execute(body);
 
-    if (created) {
-      const http = new HttpResponseHandler({ message: 'Game created.' });
-      return http.created();
+      if (created) {
+        const http = new HttpResponseHandler({ message: 'Game created.' });
+        return http.created();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 
   async getOne(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const foundGame = await this.getOneGameUseCase.execute(id);
+    try {
+      const id = httpRequest.id;
+      const foundGame = await this.getOneGameUseCase.execute(id);
 
-    if (foundGame) {
-      const http = new HttpResponseHandler(foundGame);
-      return http.ok();
+      if (foundGame) {
+        const http = new HttpResponseHandler(foundGame);
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'Not found.' });
+        return http.notFound();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.notFound();
     }
   }
 
   async getAll(): Promise<HttpResponse> {
-    const foundGames = await this.getAllGamesUseCase.execute();
+    try {
+      const foundGames = await this.getAllGamesUseCase.execute();
 
-    if (foundGames) {
-      const http = new HttpResponseHandler(foundGames);
-      return http.ok();
+      if (foundGames.length > 0) {
+        const http = new HttpResponseHandler(foundGames);
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'Not found.' });
+        return http.notFound();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.notFound();
     }
   }
 
   async update(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const body = httpRequest.body;
-    const updated = await this.updateGameUseCase.execute(body, id);
+    try {
+      const id = httpRequest.id;
+      const body = httpRequest.body;
+      const updated = await this.updateGameUseCase.execute(body, id);
 
-    if (updated) {
-      const http = new HttpResponseHandler({ message: 'Game updated.' });
-      return http.ok();
+      if (updated) {
+        const http = new HttpResponseHandler({ message: 'Game updated.' });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 
   async delete(httpRequest: HttpRequest): Promise<HttpResponse> {
-    const id = httpRequest.id;
-    const deleted = await this.deleteGameUseCase.execute(id);
+    try {
+      const id = httpRequest.id;
+      const deleted = await this.deleteGameUseCase.execute(id);
 
-    if (deleted) {
-      const http = new HttpResponseHandler({ message: 'Game deleted.' });
-      return http.ok();
+      if (deleted) {
+        const http = new HttpResponseHandler({ message: 'Game deleted.' });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
     }
   }
 }

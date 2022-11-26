@@ -1,6 +1,7 @@
 import { UserDto } from 'src/domain/dtos/user-dto';
 import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
 import { UpdateUserUseCaseInterface } from 'src/data/abstract/user/update-user-interface';
+import { InvalidParamError } from 'src/utils/errors';
 
 export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
   constructor(private readonly repository: UserRepositoryInterface) {}
@@ -16,7 +17,7 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
         return false;
       }
     } else {
-      return false;
+      throw new InvalidParamError('ID');
     }
   }
 }
