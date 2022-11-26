@@ -2,15 +2,21 @@ import { UpdateProfileUseCaseInterface } from '../../abstract/profile/update-pro
 import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
 import { ProfileDto } from 'src/domain/dtos/profile-dto';
 import { InvalidParamError } from 'src/utils/errors';
+import { ProfileEntity } from 'src/entities/profile-entity';
 
 export class UpdateProfileUseCase implements UpdateProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
   async execute(body: ProfileDto, id: string): Promise<boolean> {
     const foundProfile = await this.repository.getOne(id);
+
     if (foundProfile) {
-      const updatedBody = Object.assign(foundProfile, body);
-      const updatedProfile = await this.repository.update(updatedBody, id);
+      const updatedBody = new ProfileEntity(Object.assign(foundProfile, body));
+      const updatedProfile = await this.repository.update(
+        updatedBody.getBody(),
+        id,
+      );
+
       if (updatedProfile) {
         return true;
       } else {
