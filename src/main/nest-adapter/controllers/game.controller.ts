@@ -9,65 +9,65 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { HttpResponse } from 'src/domain/http/http-response';
-import { makeProfileControllerFactory } from 'src/main/factories/profile-controller-factory';
+import { makeGameControllerFactory } from 'src/main/factories/game-controller-factory';
 import { HttpRequestHandler } from 'src/utils/handlers/http/http-request-handler';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { NestProfileDto } from './profile.dto';
+import { NestGameDto } from '../dtos/game.dto';
 import { ErrorDetectorInterceptor } from '../interceptors/error-detector-interceptor';
-const profile = makeProfileControllerFactory();
+const game = makeGameControllerFactory();
 
-@ApiTags('profile')
-@Controller('profile')
-export class ProfileController {
+@ApiTags('game')
+@Controller('game')
+export class GameController {
   @ApiOperation({
-    summary: 'Create a profile.',
+    summary: 'Create a game.',
   })
-  @Post('create-profile')
+  @Post('create-game')
   @UseInterceptors(ErrorDetectorInterceptor)
-  async create(@Body() body: NestProfileDto) {
+  async create(@Body() body: NestGameDto) {
     const http = new HttpRequestHandler({ body });
-    return await profile.create(http.request());
+    return await game.create(http.request());
   }
 
   @ApiOperation({
-    summary: 'Get all profiles.',
+    summary: 'Get all games.',
   })
-  @Get('get-all-profiles')
+  @Get('get-all-games')
   @UseInterceptors(ErrorDetectorInterceptor)
   async getAll(): Promise<HttpResponse> {
-    return await profile.getAll();
+    return await game.getAll();
   }
 
   @ApiOperation({
-    summary: 'Get one profile by ID.',
+    summary: 'Get one game by ID.',
   })
-  @Get('get-profile/:id')
+  @Get('get-game/:id')
   @UseInterceptors(ErrorDetectorInterceptor)
   async getOneById(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
-    return await profile.getOne(http.request());
+    return await game.getOne(http.request());
   }
 
   @ApiOperation({
-    summary: 'Delete a profile.',
+    summary: 'Delete a game.',
   })
-  @Delete('delete-profile/:id')
+  @Delete('delete-game/:id')
   @UseInterceptors(ErrorDetectorInterceptor)
   async delete(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
-    return await profile.delete(http.request());
+    return await game.delete(http.request());
   }
 
   @ApiOperation({
-    summary: 'Update a profile.',
+    summary: 'Update a game.',
   })
-  @Patch('update-profile/:id')
+  @Patch('update-game/:id')
   @UseInterceptors(ErrorDetectorInterceptor)
   async update(
     @Param('id') id: string,
-    @Body() body: NestProfileDto,
+    @Body() body: NestGameDto,
   ): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id }, body });
-    return await profile.update(http.request());
+    return await game.update(http.request());
   }
 }

@@ -12,7 +12,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { NestUserDto } from './user.dto';
+import { NestUserDto } from '../dtos/user.dto';
 import { ErrorDetectorInterceptor } from '../interceptors/error-detector-interceptor';
 const user = makeUserControllerFactory();
 
