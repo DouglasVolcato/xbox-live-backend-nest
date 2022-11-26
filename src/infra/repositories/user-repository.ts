@@ -40,7 +40,7 @@ export class UserRepository implements UserRepositoryInterface {
     });
   }
 
-  delete(id: string): Promise<UserEntityInterface> {
+  delete(id: string): Promise<void | UserEntityInterface> {
     return new Promise((resolve) => {
       for (let index = 0; index < arrUsers.length; index++) {
         if (arrUsers[index].id === id) {
@@ -48,6 +48,7 @@ export class UserRepository implements UserRepositoryInterface {
           resolve(deletedItem[0]);
         }
       }
+      resolve();
     });
   }
 }

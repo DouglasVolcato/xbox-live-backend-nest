@@ -36,7 +36,7 @@ export class ProfileRepository implements ProfileRepositoryInterface {
     });
   }
 
-  delete(id: string): Promise<ProfileEntityInterface> {
+  delete(id: string): Promise<void | ProfileEntityInterface> {
     return new Promise((resolve) => {
       for (let index = 0; index < arrProfiles.length; index++) {
         if (arrProfiles[index].id === id) {
@@ -44,6 +44,7 @@ export class ProfileRepository implements ProfileRepositoryInterface {
           resolve(deletedItem[0]);
         }
       }
+      resolve();
     });
   }
 }

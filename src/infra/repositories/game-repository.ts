@@ -40,6 +40,7 @@ export class GameRepository implements GameRepositoryInterface {
           resolve(deletedItem[0]);
         }
       }
+      resolve();
     });
   }
 }
