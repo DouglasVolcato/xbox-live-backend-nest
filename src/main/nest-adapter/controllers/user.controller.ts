@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { NestUserDto } from '../dtos/user.dto';
-import { ErrorDetectorInterceptor } from '../interceptors/error-detector-interceptor';
+import { ResponseInterceptor } from '../interceptors/response-interceptor';
 const user = makeUserControllerFactory();
 
 @ApiTags('user')
@@ -23,7 +23,7 @@ export class UserController {
     summary: 'Create a user.',
   })
   @Post('create-user')
-  @UseInterceptors(ErrorDetectorInterceptor)
+  @UseInterceptors(ResponseInterceptor)
   async create(@Body() body: NestUserDto) {
     const http = new HttpRequestHandler({ body });
     return await user.create(http.request());
@@ -33,7 +33,7 @@ export class UserController {
     summary: 'Get all users.',
   })
   @Get('get-all-users')
-  @UseInterceptors(ErrorDetectorInterceptor)
+  @UseInterceptors(ResponseInterceptor)
   async getAll(): Promise<HttpResponse> {
     return await user.getAll();
   }
@@ -42,7 +42,7 @@ export class UserController {
     summary: 'Get a user by ID.',
   })
   @Get('get-user-by-id/:id')
-  @UseInterceptors(ErrorDetectorInterceptor)
+  @UseInterceptors(ResponseInterceptor)
   async getOneById(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
     return await user.getOneById(http.request());
@@ -52,7 +52,7 @@ export class UserController {
     summary: 'Get a user by email.',
   })
   @Get('get-user-by-email')
-  @UseInterceptors(ErrorDetectorInterceptor)
+  @UseInterceptors(ResponseInterceptor)
   async getOneByEmail(@Body() body: any): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ body });
     return await user.getOneByEmail(http.request());
@@ -62,7 +62,7 @@ export class UserController {
     summary: 'Delete a user.',
   })
   @Delete('delete-user/:id')
-  @UseInterceptors(ErrorDetectorInterceptor)
+  @UseInterceptors(ResponseInterceptor)
   async delete(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
     return await user.delete(http.request());
@@ -72,7 +72,7 @@ export class UserController {
     summary: 'Update a user.',
   })
   @Patch('update-user/:id')
-  @UseInterceptors(ErrorDetectorInterceptor)
+  @UseInterceptors(ResponseInterceptor)
   async update(
     @Param('id') id: string,
     @Body() body: NestUserDto,
