@@ -1,54 +1,45 @@
 import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
 import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
-import { arrUsers } from '../database/mocked';
+import { prismaDatabase } from '../database/prisma-database';
 
 export class UserRepository implements UserRepositoryInterface {
-  create(body: UserEntityInterface): Promise<UserEntityInterface> {
-    return new Promise((resolve) => {
-      arrUsers.push(body);
-      resolve(body);
+  async create(body: UserEntityInterface): Promise<UserEntityInterface> {
+    return await prismaDatabase.user.create({ data: body });
+  }
+
+  async getOneByEmail(email: string): Promise<UserEntityInterface> {
+    return await prismaDatabase.user.findUnique({
+      where: {
+        email: email,
+      },
     });
   }
 
-  getOneByEmail(email: string): Promise<UserEntityInterface> {
-    return new Promise((resolve) => {
-      const foundUser = arrUsers.find((user) => user.email === email);
-      resolve(foundUser);
+  async getOneById(id: string): Promise<UserEntityInterface> {
+    return await prismaDatabase.user.findUnique({
+      where: {
+        id: id,
+      },
     });
   }
 
-  getOneById(id: string): Promise<UserEntityInterface> {
-    return new Promise((resolve) => {
-      const foundUser = arrUsers.find((user) => user.id === id);
-      resolve(foundUser);
+  async getAll(): Promise<UserEntityInterface[]> {
+    return await prismaDatabase.user.findMany();
+  }
+
+  async update(
+    body: UserEntityInterface,
+    id: string,
+  ): Promise<UserEntityInterface> {
+    return await prismaDatabase.user.update({
+      where: { id: id },
+      data: body,
     });
   }
 
-  getAll(): Promise<UserEntityInterface[]> {
-    return new Promise((resolve) => resolve(arrUsers));
-  }
-
-  update(body: UserEntityInterface, id: string): Promise<UserEntityInterface> {
-    return new Promise((resolve) => {
-      for (let index = 0; index < arrUsers.length; index++) {
-        if (arrUsers[index].id === id) {
-          arrUsers.splice(index, 1, body);
-          break;
-        }
-      }
-      resolve(body);
-    });
-  }
-
-  delete(id: string): Promise<void | UserEntityInterface> {
-    return new Promise((resolve) => {
-      for (let index = 0; index < arrUsers.length; index++) {
-        if (arrUsers[index].id === id) {
-          const deletedItem = arrUsers.splice(index, 1);
-          resolve(deletedItem[0]);
-        }
-      }
-      resolve();
+  async delete(id: string): Promise<void | UserEntityInterface> {
+    return await prismaDatabase.user.delete({
+      where: { id: id },
     });
   }
 }
