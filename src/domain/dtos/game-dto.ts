@@ -1,4 +1,5 @@
 export interface GameDto {
+  id?: string;
   title?: string;
   coverImageUrl?: string;
   description?: string;

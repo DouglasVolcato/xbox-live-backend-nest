@@ -24,7 +24,7 @@ export class GameEntity implements GameValidatorInterface {
 
   getBody(): GameEntityInterface {
     return {
-      id: new IdGeneratorAdapter().generateId(),
+      id: this.game.id ?? new IdGeneratorAdapter().generateId(),
       title: this.game.title,
       coverImageUrl: this.game.coverImageUrl,
       description: this.game.description,

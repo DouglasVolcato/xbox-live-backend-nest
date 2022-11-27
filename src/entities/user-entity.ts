@@ -27,7 +27,7 @@ export class UserEntity implements UserValidatorInterface {
     const hashedPassword = hasher.hash(this.user.password, 10);
 
     return {
-      id: generatedId,
+      id: this.user.id ?? generatedId,
       name: this.user.name,
       email: this.user.email,
       password: hashedPassword,

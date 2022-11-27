@@ -15,7 +15,7 @@ export class ProfileEntity implements ProfileValidatorInterface {
 
   getBody(): ProfileEntityInterface {
     return {
-      id: new IdGeneratorAdapter().generateId(),
+      id: this.profile.id ?? new IdGeneratorAdapter().generateId(),
       title: this.profile.title,
       imageUrl: this.profile.imageUrl ?? '',
     };
