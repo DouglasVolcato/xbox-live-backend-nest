@@ -9,6 +9,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('xbox-live-backend')
     .setVersion('1.0.0')
+    .addTag('api-test')
     .addTag('user')
     .addTag('profile')
     .addTag('game')
