@@ -14,6 +14,8 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NestUserDto } from '../dtos/user.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
+import { LoginDto } from 'src/domain/dtos/login-dto';
+import { EmailDto } from '../dtos/email.dto';
 const user = makeUserControllerFactory();
 
 @ApiTags('user')
@@ -85,7 +87,7 @@ export class UserController {
     description: 'User not found.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async getOneByEmail(@Body() body: any): Promise<HttpResponse> {
+  async getOneByEmail(@Body() body: EmailDto): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ body });
     return await user.getOneByEmail(http.request());
   }
