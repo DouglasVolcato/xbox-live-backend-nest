@@ -11,7 +11,7 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NestUserDto } from '../dtos/user.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
 const user = makeUserControllerFactory();
@@ -23,6 +23,14 @@ export class UserController {
     summary: 'Create a user.',
   })
   @Post('create-user')
+  @ApiResponse({
+    status: 201,
+    description: 'User created.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async create(@Body() body: NestUserDto) {
     const http = new HttpRequestHandler({ body });
@@ -33,6 +41,14 @@ export class UserController {
     summary: 'Get all users.',
   })
   @Get('get-all-users')
+  @ApiResponse({
+    status: 200,
+    description: 'Users found.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Users not found.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async getAll(): Promise<HttpResponse> {
     return await user.getAll();
@@ -42,6 +58,14 @@ export class UserController {
     summary: 'Get a user by ID.',
   })
   @Get('get-user-by-id/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'User found.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async getOneById(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
@@ -52,6 +76,14 @@ export class UserController {
     summary: 'Get a user by email.',
   })
   @Get('get-user-by-email')
+  @ApiResponse({
+    status: 200,
+    description: 'User found.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'User not found.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async getOneByEmail(@Body() body: any): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ body });
@@ -62,6 +94,14 @@ export class UserController {
     summary: 'Delete a user.',
   })
   @Delete('delete-user/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'User Deleted.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async delete(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
@@ -72,6 +112,14 @@ export class UserController {
     summary: 'Update a user.',
   })
   @Patch('update-user/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'User Updated.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async update(
     @Param('id') id: string,

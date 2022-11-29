@@ -11,7 +11,7 @@ import {
 import { HttpResponse } from 'src/domain/http/http-response';
 import { makeGameControllerFactory } from 'src/main/factories/game-controller-factory';
 import { HttpRequestHandler } from 'src/utils/handlers/http/http-request-handler';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NestGameDto } from '../dtos/game.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
 const game = makeGameControllerFactory();
@@ -23,6 +23,14 @@ export class GameController {
     summary: 'Create a game.',
   })
   @Post('create-game')
+  @ApiResponse({
+    status: 201,
+    description: 'Game created.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async create(@Body() body: NestGameDto) {
     const http = new HttpRequestHandler({ body });
@@ -33,6 +41,14 @@ export class GameController {
     summary: 'Get all games.',
   })
   @Get('get-all-games')
+  @ApiResponse({
+    status: 200,
+    description: 'Games found.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Games not found.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async getAll(): Promise<HttpResponse> {
     return await game.getAll();
@@ -42,6 +58,14 @@ export class GameController {
     summary: 'Get one game by ID.',
   })
   @Get('get-game/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'Game found.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Game not found.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async getOneById(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
@@ -52,6 +76,14 @@ export class GameController {
     summary: 'Delete a game.',
   })
   @Delete('delete-game/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'Game Deleted.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async delete(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
@@ -62,6 +94,14 @@ export class GameController {
     summary: 'Update a game.',
   })
   @Patch('update-game/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'Game Updated.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async update(
     @Param('id') id: string,

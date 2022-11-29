@@ -11,7 +11,7 @@ import {
 import { HttpResponse } from 'src/domain/http/http-response';
 import { makeProfileControllerFactory } from 'src/main/factories/profile-controller-factory';
 import { HttpRequestHandler } from 'src/utils/handlers/http/http-request-handler';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NestProfileDto } from '../dtos/profile.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
 const profile = makeProfileControllerFactory();
@@ -23,6 +23,14 @@ export class ProfileController {
     summary: 'Create a profile.',
   })
   @Post('create-profile')
+  @ApiResponse({
+    status: 201,
+    description: 'Profile created.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async create(@Body() body: NestProfileDto) {
     const http = new HttpRequestHandler({ body });
@@ -33,6 +41,14 @@ export class ProfileController {
     summary: 'Get all profiles.',
   })
   @Get('get-all-profiles')
+  @ApiResponse({
+    status: 200,
+    description: 'Profiles found.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Profiles not found.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async getAll(): Promise<HttpResponse> {
     return await profile.getAll();
@@ -42,6 +58,14 @@ export class ProfileController {
     summary: 'Get one profile by ID.',
   })
   @Get('get-profile/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'Profile found.',
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Profile not found.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async getOneById(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
@@ -52,6 +76,14 @@ export class ProfileController {
     summary: 'Delete a profile.',
   })
   @Delete('delete-profile/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'Profile Deleted.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async delete(@Param('id') id: string): Promise<HttpResponse> {
     const http = new HttpRequestHandler({ params: { id } });
@@ -62,6 +94,14 @@ export class ProfileController {
     summary: 'Update a profile.',
   })
   @Patch('update-profile/:id')
+  @ApiResponse({
+    status: 200,
+    description: 'Profile Updated.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request.',
+  })
   @UseInterceptors(ResponseInterceptor)
   async update(
     @Param('id') id: string,
