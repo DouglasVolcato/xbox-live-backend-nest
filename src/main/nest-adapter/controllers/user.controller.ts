@@ -14,7 +14,6 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NestUserDto } from '../dtos/user.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
-import { LoginDto } from 'src/domain/dtos/login-dto';
 import { EmailDto } from '../dtos/email.dto';
 const user = makeUserControllerFactory();
 
