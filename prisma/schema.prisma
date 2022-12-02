@@ -10,28 +10,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id       String  @id @unique
-  name     String
-  email    String  @unique
-  password String
-  cpf      String?
-  isAdmin  Boolean
+model user {
+  user_id    String    @id @unique
+  name       String
+  email      String    @unique
+  password   String
+  cpf        String?
+  is_admin   Boolean
+  created_at DateTime
+  updated_at DateTime
+  profile    profile[]
+  game       game[]
 }
 
-model Profile {
-  id       String @id @unique
-  title    String
-  imageUrl String
+model profile {
+  profile_id             String                   @id @unique
+  title                  String
+  image_url              String
+  created_at             DateTime
+  updated_at             DateTime
+  user_id                String
+  user                   user                     @relation(fields: [user_id], references: [user_id])
+  profile_favorite_games profile_favorite_games[]
 }
 
-model Game {
-  id                 String @id @unique
-  title              String
-  coverImageUrl      String
-  description        String
-  year               Int
-  imdbScore          Int
-  trailerYouTubeUrl  String
-  gameplayYouTubeUrl String
+model game {
+  game_id                String                   @id @unique
+  title                  String
+  coverImageUrl          String
+  description            String
+  year                   Int
+  imdbScore              Float
+  trailerYouTubeUrl      String
+  gameplayYouTubeUrl     String
+  created_at             DateTime
+  updated_at             DateTime
+  user_id                String
+  user                   user                     @relation(fields: [user_id], references: [user_id])
+  profile_favorite_games profile_favorite_games[]
+}
+
+model profile_favorite_games {
+  profile_id String  @id
+  profile    profile @relation(fields: [profile_id], references: [profile_id])
+  game_id    String
+  game       game    @relation(fields: [game_id], references: [game_id])
 }
