@@ -11,12 +11,18 @@ export class LoginAuthUseCase implements LoginAuthUseCaseInterface {
   async execute(body: LoginDto): Promise<string | null> {
     const foundUser = await this.repository.getOneByEmail(body.email);
     if (foundUser) {
-      const hasher = new HasherAdapter();
-      hasher.compare(body.password, foundUser.password);
+      const comparison = new HasherAdapter().compare(
+        body.password,
+        foundUser.password,
+      );
 
-      const tokenHandler = new TokenHandlerAdapter();
-      const token = tokenHandler.generateToken(foundUser.id);
-      return token;
+      if (comparison) {
+        const tokenHandler = new TokenHandlerAdapter();
+        const token = tokenHandler.generateToken(foundUser.id);
+        return token;
+      } else {
+        throw new InvalidParamError('Password');
+      }
     } else {
       throw new InvalidParamError('Email');
     }
