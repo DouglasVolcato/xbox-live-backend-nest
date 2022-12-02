@@ -1,5 +1,5 @@
 export interface GameEntityInterface {
-  id: string;
+  game_id: string;
   title: string;
   coverImageUrl: string;
   description: string;

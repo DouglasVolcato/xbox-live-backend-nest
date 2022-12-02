@@ -1,7 +1,7 @@
 import { ProfileEntityInterface } from "./profile-entity-interface";
 
 export interface UserEntityInterface {
-  id: string;
+  user_id: string;
   name: string;
   email: string;
   password: string;
