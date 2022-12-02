@@ -1,5 +1,5 @@
 export interface GameEntityInterface {
-  id: string;
+  game_id: string;
   title: string;
   coverImageUrl: string;
   description: string;
@@ -7,4 +7,6 @@ export interface GameEntityInterface {
   imdbScore: number;
   trailerYouTubeUrl: string;
   gameplayYouTubeUrl: string;
+  created_at: Date;
+  updated_at: Date;
 }
