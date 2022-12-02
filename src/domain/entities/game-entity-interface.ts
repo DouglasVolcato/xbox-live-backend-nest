@@ -7,4 +7,6 @@ export interface GameEntityInterface {
   imdbScore: number;
   trailerYouTubeUrl: string;
   gameplayYouTubeUrl: string;
+  created_at: Date;
+  updated_at: Date;
 }
