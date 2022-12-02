@@ -13,11 +13,11 @@ export class ResponseInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap((data) => {
         if (data.statusCode === 400) {
-          throw new HttpException(data.body.name, 400);
+          throw new HttpException(data.body.name ?? 'Bad Request', 400);
         } else if (data.statusCode === 401) {
-          throw new HttpException(data.body.name, 401);
+          throw new HttpException(data.body.name ?? 'Unauthorized', 401);
         } else if (data.statusCode === 404) {
-          throw new HttpException(data.body.name ?? 'Not found', 404);
+          throw new HttpException(data.body.name ?? 'Not Found', 404);
         }
       }),
     );
