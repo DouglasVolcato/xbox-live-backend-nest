@@ -5,6 +5,7 @@ export interface GameDto {
   description?: string;
   year?: number;
   imdbScore?: number;
+  userId: string;
   trailerYouTubeUrl?: string;
   gameplayYouTubeUrl?: string;
 }
