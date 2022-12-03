@@ -3,4 +3,5 @@ import { ProfileEntityInterface } from '../../domain/entities/profile-entity-int
 export interface ProfileValidatorInterface {
   validateBody(): void;
   getBody(): ProfileEntityInterface;
+  updateBody(mainProfile: ProfileEntityInterface): ProfileEntityInterface;
 }

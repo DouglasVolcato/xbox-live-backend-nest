@@ -11,11 +11,8 @@ export class UpdateProfileUseCase implements UpdateProfileUseCaseInterface {
     const foundProfile = await this.repository.getOne(id);
 
     if (foundProfile) {
-      const updatedBody = new ProfileEntity(Object.assign(foundProfile, body));
-      const updatedProfile = await this.repository.update(
-        updatedBody.getBody(),
-        id,
-      );
+      const updatedBody = new ProfileEntity(body).updateBody(foundProfile);
+      const updatedProfile = await this.repository.update(updatedBody, id);
 
       if (updatedProfile) {
         return true;

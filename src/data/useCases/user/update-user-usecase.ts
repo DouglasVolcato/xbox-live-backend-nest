@@ -11,11 +11,8 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
     const foundUser = await this.repository.getOneById(id);
 
     if (foundUser) {
-      const updatedBody = new UserEntity(Object.assign(foundUser, body));
-      const updatedUser = await this.repository.update(
-        updatedBody.getBody(),
-        id,
-      );
+      const updatedBody = new UserEntity(body).updateBody(foundUser);
+      const updatedUser = await this.repository.update(updatedBody, id);
 
       if (updatedUser) {
         return true;

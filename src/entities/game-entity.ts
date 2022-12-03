@@ -23,6 +23,8 @@ export class GameEntity implements GameValidatorInterface {
   }
 
   getBody(): GameEntityInterface {
+    const todayDate = new Date().toISOString().split('T')[0];
+
     return {
       id: this.game.id ?? new IdGeneratorAdapter().generateId(),
       title: this.game.title,
@@ -32,6 +34,29 @@ export class GameEntity implements GameValidatorInterface {
       imdbScore: this.game.imdbScore ?? 0,
       trailerYouTubeUrl: this.game.trailerYouTubeUrl ?? '',
       gameplayYouTubeUrl: this.game.gameplayYouTubeUrl ?? '',
+      userId: this.game.userId,
+      createdAt: todayDate,
+      updatedAt: todayDate,
+    };
+  }
+
+  updateBody(mainGame: GameEntityInterface): GameEntityInterface {
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    return {
+      id: mainGame.id,
+      title: this.game.title ?? mainGame.title,
+      coverImageUrl: this.game.coverImageUrl ?? mainGame.coverImageUrl,
+      description: this.game.description ?? mainGame.description,
+      year: this.game.year ?? mainGame.year,
+      imdbScore: this.game.imdbScore ?? mainGame.imdbScore,
+      trailerYouTubeUrl:
+        this.game.trailerYouTubeUrl ?? mainGame.trailerYouTubeUrl,
+      gameplayYouTubeUrl:
+        this.game.gameplayYouTubeUrl ?? mainGame.gameplayYouTubeUrl,
+      userId: mainGame.userId,
+      createdAt: mainGame.createdAt,
+      updatedAt: todayDate,
     };
   }
 }

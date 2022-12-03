@@ -21,10 +21,10 @@ export class UserEntity implements UserValidatorInterface {
   }
 
   getBody(): UserEntityInterface {
-    const idGenerator = new IdGeneratorAdapter();
-    const hasher = new HasherAdapter();
-    const generatedId = idGenerator.generateId();
-    const hashedPassword = hasher.hash(this.user.password, 10);
+    const generatedId = new IdGeneratorAdapter().generateId();
+    const hashedPassword = new HasherAdapter().hash(this.user.password, 10);
+    const isAdmin = this.user.secret && this.user.secret === process.env.SECRET;
+    const todayDate = new Date().toISOString().split('T')[0];
 
     return {
       id: this.user.id ?? generatedId,
@@ -32,7 +32,30 @@ export class UserEntity implements UserValidatorInterface {
       email: this.user.email,
       password: hashedPassword,
       cpf: this.user.cpf ?? '',
-      isAdmin: this.user.isAdmin ?? true,
+      isAdmin: isAdmin,
+      profiles: [],
+      createdAt: todayDate,
+      updatedAt: todayDate,
+    };
+  }
+
+  updateBody(mainUser: UserEntityInterface) {
+    const todayDate = new Date().toISOString().split('T')[0];
+    const password = this.user.password
+      ? new HasherAdapter().hash(this.user.password, 10)
+      : mainUser.password;
+    const isAdmin = this.user.secret && this.user.secret === process.env.SECRET;
+
+    return {
+      id: mainUser.id,
+      name: this.user.name ?? mainUser.name,
+      email: this.user.email ?? mainUser.email,
+      password: password,
+      cpf: this.user.cpf ?? mainUser.cpf,
+      isAdmin: isAdmin ?? mainUser.isAdmin,
+      profiles: mainUser.profiles,
+      createdAt: mainUser.createdAt,
+      updatedAt: todayDate,
     };
   }
 }

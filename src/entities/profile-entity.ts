@@ -14,10 +14,30 @@ export class ProfileEntity implements ProfileValidatorInterface {
   }
 
   getBody(): ProfileEntityInterface {
+    const todayDate = new Date().toISOString().split('T')[0];
+
     return {
       id: this.profile.id ?? new IdGeneratorAdapter().generateId(),
       title: this.profile.title,
       imageUrl: this.profile.imageUrl ?? '',
+      favorite_games: [],
+      userId: this.profile.userId,
+      createdAt: todayDate,
+      updatedAt: todayDate,
+    };
+  }
+
+  updateBody(mainProfile: ProfileEntityInterface): ProfileEntityInterface {
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    return {
+      id: mainProfile.id,
+      title: this.profile.title ?? mainProfile.title,
+      imageUrl: this.profile.imageUrl ?? mainProfile.imageUrl,
+      favorite_games: mainProfile.favorite_games,
+      userId: mainProfile.userId,
+      createdAt: mainProfile.createdAt,
+      updatedAt: todayDate,
     };
   }
 }

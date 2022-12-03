@@ -11,11 +11,8 @@ export class UpdateGameUseCase implements UpdateGameUseCaseInterface {
     const foundGame = await this.repository.getOne(id);
 
     if (foundGame) {
-      const updatedBody = new GameEntity(Object.assign(foundGame, body));
-      const updatedGame = await this.repository.update(
-        updatedBody.getBody(),
-        id,
-      );
+      const updatedBody = new GameEntity(body).updateBody(foundGame);
+      const updatedGame = await this.repository.update(updatedBody, id);
 
       if (updatedGame) {
         return true;
