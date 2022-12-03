@@ -1,11 +1,11 @@
 import { GameEntityInterface } from './game-entity-interface';
 
 export interface ProfileEntityInterface {
-  profile_id: string;
+  id: string;
   title: string;
   imageUrl: string;
-  user_id: string;
   favorite_games: GameEntityInterface[];
+  user_id: string;
   created_at: Date;
   updated_at: Date;
 }
