@@ -1,4 +1,4 @@
-import { ProfileEntityInterface } from "./profile-entity-interface";
+import { ProfileEntityInterface } from './profile-entity-interface';
 
 export interface UserEntityInterface {
   id: string;
@@ -8,6 +8,6 @@ export interface UserEntityInterface {
   cpf: string;
   isAdmin: boolean;
   profiles: ProfileEntityInterface[];
-  created_at: Date;
-  updated_at: Date;
+  createdAt: string;
+  updatedAt: string;
 }
