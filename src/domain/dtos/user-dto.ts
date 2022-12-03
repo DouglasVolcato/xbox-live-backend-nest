@@ -4,5 +4,5 @@ export interface UserDto {
   email?: string;
   password?: string;
   cpf?: string;
-  isAdmin?: boolean;
+  secret?: string;
 }
