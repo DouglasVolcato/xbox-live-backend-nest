@@ -1,10 +1,11 @@
+import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
 import { TokenHandlerAdapter } from 'src/utils/adapters/token-handler-adapter';
 import { UnauthorizedError } from 'src/utils/errors';
 import { AuthMiddlewareInterface } from '../abstract/middlewares/auth-middleware-interface';
 import { HttpRequest } from '../controllers/profile/interface-imports';
 
 export class AuthMiddleware implements AuthMiddlewareInterface {
-  auth(httpRequest: HttpRequest): void {
+  async auth(httpRequest: HttpRequest): Promise<UserEntityInterface> {
     try {
       const authorization = httpRequest.authorization;
 
@@ -18,9 +19,9 @@ export class AuthMiddleware implements AuthMiddlewareInterface {
         throw new UnauthorizedError();
       }
 
-      new TokenHandlerAdapter().validateToken(split[0]);
+      const user = await new TokenHandlerAdapter().validateToken(split[0]);
 
-      return;
+      return user;
     } catch (error) {
       throw new UnauthorizedError();
     }
