@@ -6,10 +6,12 @@ import { UpdateGameUseCase } from 'src/data/useCases/game/update-game-usecase';
 import { GameRepository } from 'src/infra/repositories/game-repository';
 import { GameControllerInterface } from 'src/presentation/abstract/controllers/game-controller.interface';
 import { GameController } from 'src/presentation/controllers/game/game-controller';
+import { AuthMiddleware } from 'src/presentation/middlewares/auth-middleware';
 
 export function makeGameControllerFactory(): GameControllerInterface {
   const repository = new GameRepository();
 
+  const authMiddleware = new AuthMiddleware();
   const createGameUseCase = new CreateGameUseCase(repository);
   const getOneGameUseCase = new GetOneGameUseCase(repository);
   const getAllGamesUseCase = new GetAllGamesUseCase(repository);
@@ -17,6 +19,7 @@ export function makeGameControllerFactory(): GameControllerInterface {
   const deleteGameUseCase = new DeleteGameUseCase(repository);
 
   const gameController = new GameController(
+    authMiddleware,
     createGameUseCase,
     getOneGameUseCase,
     getAllGamesUseCase,

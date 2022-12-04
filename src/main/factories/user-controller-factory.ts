@@ -7,10 +7,12 @@ import { UpdateUserUseCase } from 'src/data/useCases/user/update-user-usecase';
 import { UserRepository } from 'src/infra/repositories/user-repository';
 import { UserControllerInterface } from 'src/presentation/abstract/controllers/user-controller-interface';
 import { UserController } from 'src/presentation/controllers/user/user-controller';
+import { AuthMiddleware } from 'src/presentation/middlewares/auth-middleware';
 
 export function makeUserControllerFactory(): UserControllerInterface {
   const repository = new UserRepository();
 
+  const authMiddleware = new AuthMiddleware();
   const createUserUseCase = new CreateUserUseCase(repository);
   const getOneUserByEmailUseCase = new GetOneUserByEmailUseCase(repository);
   const getOneUserByIdUseCase = new GetOneUserByIdUseCase(repository);
@@ -19,6 +21,7 @@ export function makeUserControllerFactory(): UserControllerInterface {
   const deleteUserUseCase = new DeleteUserUseCase(repository);
 
   const userController = new UserController(
+    authMiddleware,
     createUserUseCase,
     getOneUserByEmailUseCase,
     getOneUserByIdUseCase,

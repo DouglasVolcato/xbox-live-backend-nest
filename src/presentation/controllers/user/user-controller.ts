@@ -10,9 +10,11 @@ import {
   GetAllUsersUseCaseInterface,
 } from './interface-imports';
 import { HttpResponseHandler } from 'src/utils/handlers/http/http-response-handler';
+import { AuthMiddlewareInterface } from 'src/presentation/abstract/middlewares/auth-middleware-interface';
 
 export class UserController implements UserControllerInterface {
   constructor(
+    private readonly authMiddleware: AuthMiddlewareInterface,
     private readonly createUserUseCase: CreateUserUseCaseInterface,
     private readonly getOneUserByEmailUseCase: GetOneUserByEmailUseCaseInterface,
     private readonly getOneUserByIdUseCase: GetOneUserByIdUseCaseInterface,
@@ -41,10 +43,16 @@ export class UserController implements UserControllerInterface {
 
   async getOneByEmail(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const email = httpRequest.body.email;
       const foundUser = await this.getOneUserByEmailUseCase.execute(email);
 
-      if (foundUser) {
+      if (foundUser && authUser.id !== foundUser.id) {
+        const http = new HttpResponseHandler({
+          message: 'Unauthorized to view this user.',
+        });
+        return http.unauthorized();
+      } else if (foundUser) {
         const http = new HttpResponseHandler(foundUser);
         return http.ok();
       } else {
@@ -59,10 +67,16 @@ export class UserController implements UserControllerInterface {
 
   async getOneById(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
       const foundUser = await this.getOneUserByIdUseCase.execute(id);
 
-      if (foundUser) {
+      if (foundUser && authUser.id !== foundUser.id) {
+        const http = new HttpResponseHandler({
+          message: 'Unauthorized to view this user.',
+        });
+        return http.unauthorized();
+      } else if (foundUser) {
         const http = new HttpResponseHandler(foundUser);
         return http.ok();
       } else {
@@ -75,8 +89,17 @@ export class UserController implements UserControllerInterface {
     }
   }
 
-  async getAll(): Promise<HttpResponse> {
+  async getAll(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
+
+      if (!authUser.isAdmin) {
+        const http = new HttpResponseHandler({
+          message: 'Only admins can view the user list.',
+        });
+        return http.unauthorized();
+      }
+
       const foundUsers = await this.getAllUsersUseCase.execute();
 
       if (foundUsers.length > 0) {
@@ -94,8 +117,17 @@ export class UserController implements UserControllerInterface {
 
   async update(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
       const body = httpRequest.body;
+
+      if (authUser.id !== id) {
+        const http = new HttpResponseHandler({
+          message: 'Unauthorized to update this user.',
+        });
+        return http.unauthorized();
+      }
+
       const updated = await this.updateUserUseCase.execute(body, id);
 
       if (updated) {
@@ -113,7 +145,16 @@ export class UserController implements UserControllerInterface {
 
   async delete(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
+
+      if (authUser.id !== id) {
+        const http = new HttpResponseHandler({
+          message: 'Unauthorized to delete this user.',
+        });
+        return http.unauthorized();
+      }
+
       const deleted = await this.deleteUserUseCase.execute(id);
 
       if (deleted) {

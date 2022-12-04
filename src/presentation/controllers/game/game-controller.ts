@@ -9,9 +9,11 @@ import {
   HttpRequest,
 } from './interface-imports';
 import { HttpResponseHandler } from 'src/utils/handlers/http/http-response-handler';
+import { AuthMiddlewareInterface } from 'src/presentation/abstract/middlewares/auth-middleware-interface';
 
 export class GameController implements GameControllerInterface {
   constructor(
+    private readonly authMiddleware: AuthMiddlewareInterface,
     private readonly createGameUseCase: CreateGameUseCaseInterface,
     private readonly getOneGameUseCase: GetOneGameUseCaseInterface,
     private readonly getAllGamesUseCase: GetAllGamesUseCaseInterface,
@@ -21,8 +23,20 @@ export class GameController implements GameControllerInterface {
 
   async create(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const body = httpRequest.body;
-      const created = await this.createGameUseCase.execute(body);
+
+      if (!authUser.isAdmin) {
+        const http = new HttpResponseHandler({
+          message: 'Only admins can create games.',
+        });
+        return http.unauthorized();
+      }
+
+      const created = await this.createGameUseCase.execute({
+        ...body,
+        userId: authUser.id,
+      });
 
       if (created) {
         const http = new HttpResponseHandler({ message: 'Game created.' });
@@ -39,6 +53,7 @@ export class GameController implements GameControllerInterface {
 
   async getOne(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
       const foundGame = await this.getOneGameUseCase.execute(id);
 
@@ -55,8 +70,9 @@ export class GameController implements GameControllerInterface {
     }
   }
 
-  async getAll(): Promise<HttpResponse> {
+  async getAll(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      await this.authMiddleware.auth(httpRequest);
       const foundGames = await this.getAllGamesUseCase.execute();
 
       if (foundGames.length > 0) {
@@ -74,8 +90,17 @@ export class GameController implements GameControllerInterface {
 
   async update(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
       const body = httpRequest.body;
+
+      if (!authUser.isAdmin) {
+        const http = new HttpResponseHandler({
+          message: 'Only admins can update games.',
+        });
+        return http.unauthorized();
+      }
+
       const updated = await this.updateGameUseCase.execute(body, id);
 
       if (updated) {
@@ -93,7 +118,16 @@ export class GameController implements GameControllerInterface {
 
   async delete(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
+
+      if (!authUser.isAdmin) {
+        const http = new HttpResponseHandler({
+          message: 'Only admins can delete games.',
+        });
+        return http.unauthorized();
+      }
+
       const deleted = await this.deleteGameUseCase.execute(id);
 
       if (deleted) {

@@ -9,9 +9,11 @@ import {
   HttpResponse,
 } from './interface-imports';
 import { HttpResponseHandler } from 'src/utils/handlers/http/http-response-handler';
+import { AuthMiddlewareInterface } from 'src/presentation/abstract/middlewares/auth-middleware-interface';
 
 export class ProfileController implements ProfileControllerInterface {
   constructor(
+    private readonly authMiddleware: AuthMiddlewareInterface,
     private readonly createProfileUseCase: CreateProfileUseCaseInterface,
     private readonly getOneProfileUseCase: GetOneProfileUseCaseInterface,
     private readonly getAllProfilesUseCase: GetAllProfilesUseCaseInterface,
@@ -21,8 +23,13 @@ export class ProfileController implements ProfileControllerInterface {
 
   async create(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const body = httpRequest.body;
-      const created = await this.createProfileUseCase.execute(body);
+
+      const created = await this.createProfileUseCase.execute({
+        ...body,
+        userId: authUser.id,
+      });
 
       if (created) {
         const http = new HttpResponseHandler({ message: 'Profile created.' });
@@ -39,8 +46,12 @@ export class ProfileController implements ProfileControllerInterface {
 
   async getOne(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
-      const foundProfile = await this.getOneProfileUseCase.execute(id);
+      const foundProfile = await this.getOneProfileUseCase.execute(
+        id,
+        authUser.id,
+      );
 
       if (foundProfile) {
         const http = new HttpResponseHandler(foundProfile);
@@ -55,9 +66,12 @@ export class ProfileController implements ProfileControllerInterface {
     }
   }
 
-  async getAll(): Promise<HttpResponse> {
+  async getAll(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const foundProfiles = await this.getAllProfilesUseCase.execute();
+      const authUser = await this.authMiddleware.auth(httpRequest);
+      const foundProfiles = await this.getAllProfilesUseCase.execute(
+        authUser.id,
+      );
 
       if (foundProfiles.length > 0) {
         const http = new HttpResponseHandler(foundProfiles);
@@ -74,9 +88,16 @@ export class ProfileController implements ProfileControllerInterface {
 
   async update(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
       const body = httpRequest.body;
-      const updated = await this.updateProfileUseCase.execute(body, id);
+      const authUser = await this.authMiddleware.auth(httpRequest);
+
+      const updated = await this.updateProfileUseCase.execute(
+        body,
+        id,
+        authUser.id,
+      );
 
       if (updated) {
         const http = new HttpResponseHandler({ message: 'Profile updated.' });
@@ -93,8 +114,9 @@ export class ProfileController implements ProfileControllerInterface {
 
   async delete(httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
-      const deleted = await this.deleteProfileUseCase.execute(id);
+      const deleted = await this.deleteProfileUseCase.execute(authUser.id, id);
 
       if (deleted) {
         const http = new HttpResponseHandler({ message: 'Profile deleted.' });
