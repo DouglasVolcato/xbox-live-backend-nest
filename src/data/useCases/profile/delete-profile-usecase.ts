@@ -4,8 +4,8 @@ import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/prof
 export class DeleteProfileUseCase implements DeleteProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
-  async execute(id: string): Promise<boolean> {
-    const deletedProfile = await this.repository.delete(id);
+  async execute(profileId: string, userId: string): Promise<boolean> {
+    const deletedProfile = await this.repository.delete(profileId, userId);
     if (deletedProfile) {
       return true;
     } else {

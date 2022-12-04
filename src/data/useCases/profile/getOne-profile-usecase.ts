@@ -5,7 +5,10 @@ import { ProfileEntityInterface } from 'src/domain/entities/profile-entity-inter
 export class GetOneProfileUseCase implements GetOneProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
-  async execute(id: string): Promise<ProfileEntityInterface | void> {
-    return await this.repository.getOne(id);
+  async execute(
+    profileId: string,
+    userId: string,
+  ): Promise<ProfileEntityInterface | void> {
+    return await this.repository.getOne(profileId, userId);
   }
 }

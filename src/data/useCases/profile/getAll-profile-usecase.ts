@@ -5,7 +5,7 @@ import { ProfileEntityInterface } from 'src/domain/entities/profile-entity-inter
 export class GetAllProfilesUseCase implements GetAllProfilesUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
-  async execute(): Promise<ProfileEntityInterface[] | []> {
-    return await this.repository.getAll();
+  async execute(userId: string): Promise<ProfileEntityInterface[] | []> {
+    return await this.repository.getAll(userId);
   }
 }

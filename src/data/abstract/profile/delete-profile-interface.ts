@@ -1,3 +1,3 @@
 export interface DeleteProfileUseCaseInterface {
-  execute(id: string): Promise<boolean>;
+  execute(profileId: string, userId: string): Promise<boolean>;
 }

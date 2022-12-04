@@ -2,6 +2,7 @@ export interface HttpRequest {
   authorization?: string;
   id?: string;
   body?: {
+    userId?: string;
     coverImageUrl?: string;
     description?: string;
     year?: number;

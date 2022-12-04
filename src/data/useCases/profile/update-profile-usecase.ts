@@ -7,12 +7,20 @@ import { ProfileEntity } from 'src/entities/profile-entity';
 export class UpdateProfileUseCase implements UpdateProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
-  async execute(body: ProfileDto, id: string): Promise<boolean> {
-    const foundProfile = await this.repository.getOne(id);
+  async execute(
+    body: ProfileDto,
+    profileId: string,
+    userId: string,
+  ): Promise<boolean> {
+    const foundProfile = await this.repository.getOne(profileId, userId);
 
     if (foundProfile) {
       const updatedBody = new ProfileEntity(body).updateBody(foundProfile);
-      const updatedProfile = await this.repository.update(updatedBody, id);
+      const updatedProfile = await this.repository.update(
+        updatedBody,
+        profileId,
+        userId,
+      );
 
       if (updatedProfile) {
         return true;
