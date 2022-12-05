@@ -51,7 +51,8 @@ export class GameController {
   })
   @UseInterceptors(ResponseInterceptor)
   async getAll(): Promise<HttpResponse> {
-    return await game.getAll();
+    const http = new HttpRequestHandler({});
+    return await game.getAll(http.request());
   }
 
   @ApiOperation({

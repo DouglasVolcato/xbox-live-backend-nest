@@ -51,7 +51,8 @@ export class ProfileController {
   })
   @UseInterceptors(ResponseInterceptor)
   async getAll(): Promise<HttpResponse> {
-    return await profile.getAll();
+    const http = new HttpRequestHandler({});
+    return await profile.getAll(http.request());
   }
 
   @ApiOperation({

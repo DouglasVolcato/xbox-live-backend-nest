@@ -52,7 +52,8 @@ export class UserController {
   })
   @UseInterceptors(ResponseInterceptor)
   async getAll(): Promise<HttpResponse> {
-    return await user.getAll();
+    const http = new HttpRequestHandler({});
+    return await user.getAll(http.request());
   }
 
   @ApiOperation({
