@@ -4,7 +4,10 @@ import { prismaDatabase } from '../database/prisma-database';
 
 export class ProfileRepository implements ProfileRepositoryInterface {
   async create(body: ProfileEntityInterface): Promise<ProfileEntityInterface> {
-    return await prismaDatabase.profile.create({ data: body });
+    return await prismaDatabase.profile.create({
+      data: body,
+      include: { favoriteGames: true },
+    });
   }
 
   async getOne(id: string): Promise<ProfileEntityInterface> {
@@ -12,11 +15,14 @@ export class ProfileRepository implements ProfileRepositoryInterface {
       where: {
         id: id,
       },
+      include: { favoriteGames: true },
     });
   }
 
   async getAll(): Promise<ProfileEntityInterface[]> {
-    return await prismaDatabase.profile.findMany();
+    return await prismaDatabase.profile.findMany({
+      include: { favoriteGames: true },
+    });
   }
 
   async update(
@@ -25,13 +31,22 @@ export class ProfileRepository implements ProfileRepositoryInterface {
   ): Promise<ProfileEntityInterface> {
     return await prismaDatabase.profile.update({
       where: { id: id },
-      data: body,
+      include: { favoriteGames: true },
+      data: {
+        id: body.id,
+        title: body.title,
+        imageUrl: body.imageUrl,
+        userId: body.userId,
+        createdAt: body.createdAt,
+        updatedAt: body.updatedAt,
+      },
     });
   }
 
   async delete(id: string): Promise<void | ProfileEntityInterface> {
     return await prismaDatabase.profile.delete({
       where: { id: id },
+      include: { favoriteGames: true },
     });
   }
 }

@@ -4,27 +4,31 @@ import { prismaDatabase } from '../database/prisma-database';
 
 export class UserRepository implements UserRepositoryInterface {
   async create(body: UserEntityInterface): Promise<UserEntityInterface> {
-    return await prismaDatabase.user.create({ data: body });
+    delete body.profiles;
+    return await prismaDatabase.user.create({
+      data: body,
+      include: { profiles: { include: { favoriteGames: true } } },
+    });
   }
 
   async getOneByEmail(email: string): Promise<UserEntityInterface> {
     return await prismaDatabase.user.findUnique({
-      where: {
-        email: email,
-      },
+      where: { email: email },
+      include: { profiles: { include: { favoriteGames: true } } },
     });
   }
 
   async getOneById(id: string): Promise<UserEntityInterface> {
     return await prismaDatabase.user.findUnique({
-      where: {
-        id: id,
-      },
+      where: { id: id },
+      include: { profiles: { include: { favoriteGames: true } } },
     });
   }
 
   async getAll(): Promise<UserEntityInterface[]> {
-    return await prismaDatabase.user.findMany();
+    return await prismaDatabase.user.findMany({
+      include: { profiles: { include: { favoriteGames: true } } },
+    });
   }
 
   async update(
@@ -34,12 +38,14 @@ export class UserRepository implements UserRepositoryInterface {
     return await prismaDatabase.user.update({
       where: { id: id },
       data: body,
+      include: { profiles: { include: { favoriteGames: true } } },
     });
   }
 
   async delete(id: string): Promise<void | UserEntityInterface> {
     return await prismaDatabase.user.delete({
       where: { id: id },
+      include: { profiles: { include: { favoriteGames: true } } },
     });
   }
 }
