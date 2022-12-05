@@ -32,7 +32,7 @@ export class UserEntity implements UserValidatorInterface {
       email: this.user.email,
       password: hashedPassword,
       cpf: this.user.cpf ?? '',
-      isAdmin: isAdmin,
+      isAdmin: isAdmin ?? false,
       profiles: [],
       createdAt: todayDate,
       updatedAt: todayDate,
