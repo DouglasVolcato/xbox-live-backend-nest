@@ -10,32 +10,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  user_id    String    @id @unique
-  name       String
-  email      String    @unique
-  password   String
-  cpf        String?
-  is_admin   Boolean
-  created_at DateTime
-  updated_at DateTime
-  profile    profile[]
-  game       game[]
+model User {
+  id        String    @id @unique
+  name      String
+  email     String    @unique
+  password  String
+  cpf       String?
+  isAdmin   Boolean
+  profiles  Profile[]
+  games     Game[]
+  createdAt DateTime
+  updatedAt DateTime
 }
 
-model profile {
-  profile_id             String                   @id @unique
+model Profile {
+  id                     String                   @id @unique
   title                  String
-  image_url              String
-  created_at             DateTime
-  updated_at             DateTime
-  user_id                String
-  user                   user                     @relation(fields: [user_id], references: [user_id])
-  profile_favorite_games profile_favorite_games[]
+  imageUrl               String
+  createdAt              DateTime
+  updatedAt              DateTime
+  userId                 String
+  User                   User                     @relation(fields: [userId], references: [id])
+  Profile_favorite_games Profile_favorite_games[]
 }
 
-model game {
-  game_id                String                   @id @unique
+model Game {
+  id                     String                   @id @unique
   title                  String
   coverImageUrl          String
   description            String
@@ -43,16 +43,16 @@ model game {
   imdbScore              Float
   trailerYouTubeUrl      String
   gameplayYouTubeUrl     String
-  created_at             DateTime
-  updated_at             DateTime
-  user_id                String
-  user                   user                     @relation(fields: [user_id], references: [user_id])
-  profile_favorite_games profile_favorite_games[]
+  createdAt              DateTime
+  updatedAt              DateTime
+  userId                 String
+  User                   User                     @relation(fields: [userId], references: [id])
+  Profile_favorite_games Profile_favorite_games[]
 }
 
-model profile_favorite_games {
-  profile_id String  @id
-  profile    profile @relation(fields: [profile_id], references: [profile_id])
-  game_id    String
-  game       game    @relation(fields: [game_id], references: [game_id])
+model Profile_favorite_games {
+  profileId String  @id
+  profile   Profile @relation(fields: [profileId], references: [id])
+  gameId    String
+  game      Game    @relation(fields: [gameId], references: [id])
 }
