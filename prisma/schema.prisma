@@ -19,40 +19,34 @@ model User {
   isAdmin   Boolean
   profiles  Profile[]
   games     Game[]
-  createdAt DateTime
-  updatedAt DateTime
+  createdAt String
+  updatedAt String
 }
 
 model Profile {
-  id                     String                   @id @unique
-  title                  String
-  imageUrl               String
-  createdAt              DateTime
-  updatedAt              DateTime
-  userId                 String
-  User                   User                     @relation(fields: [userId], references: [id])
-  Profile_favorite_games Profile_favorite_games[]
+  id            String @id @unique
+  title         String
+  imageUrl      String
+  createdAt     String
+  updatedAt     String
+  userId        String
+  User          User   @relation(fields: [userId], references: [id])
+  favoriteGames Game[]
 }
 
 model Game {
-  id                     String                   @id @unique
-  title                  String
-  coverImageUrl          String
-  description            String
-  year                   Int
-  imdbScore              Float
-  trailerYouTubeUrl      String
-  gameplayYouTubeUrl     String
-  createdAt              DateTime
-  updatedAt              DateTime
-  userId                 String
-  User                   User                     @relation(fields: [userId], references: [id])
-  Profile_favorite_games Profile_favorite_games[]
-}
-
-model Profile_favorite_games {
-  profileId String  @id
-  profile   Profile @relation(fields: [profileId], references: [id])
-  gameId    String
-  game      Game    @relation(fields: [gameId], references: [id])
+  id                 String   @id @unique
+  title              String
+  coverImageUrl      String
+  description        String
+  year               Int
+  imdbScore          Float
+  trailerYouTubeUrl  String
+  gameplayYouTubeUrl String
+  createdAt          String
+  updatedAt          String
+  userId             String
+  User               User     @relation(fields: [userId], references: [id])
+  Profile            Profile? @relation(fields: [profileId], references: [id])
+  profileId          String?
 }
