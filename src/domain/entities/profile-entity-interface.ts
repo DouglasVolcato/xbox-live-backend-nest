@@ -4,7 +4,7 @@ export interface ProfileEntityInterface {
   id: string;
   title: string;
   imageUrl: string;
-  favorite_games: GameEntityInterface[];
+  favoriteGames: GameEntityInterface[];
   userId: string;
   createdAt: string;
   updatedAt: string;
