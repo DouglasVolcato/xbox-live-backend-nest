@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './main/nest-adapter/modules/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { EnvVarsAdapter } from './utils/adapters/env-vars-adapter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(new EnvVarsAdapter().port || 3000);
 }
 bootstrap();

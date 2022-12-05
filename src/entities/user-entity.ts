@@ -1,6 +1,7 @@
 import { UserDto } from 'src/domain/dtos/user-dto';
 import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
 import { UserValidatorInterface } from 'src/entities/abstract/user-validator-interface';
+import { EnvVarsAdapter } from 'src/utils/adapters/env-vars-adapter';
 import { HasherAdapter } from 'src/utils/adapters/hasher-adapter';
 import { IdGeneratorAdapter } from 'src/utils/adapters/id-generator-adapter';
 import { MissingParamError } from 'src/utils/errors';
@@ -23,7 +24,9 @@ export class UserEntity implements UserValidatorInterface {
   getBody(): UserEntityInterface {
     const generatedId = new IdGeneratorAdapter().generateId();
     const hashedPassword = new HasherAdapter().hash(this.user.password, 10);
-    const isAdmin = this.user.secret && this.user.secret === process.env.SECRET;
+    const isAdmin =
+      this.user.secret &&
+      this.user.secret === new EnvVarsAdapter().adminPassword;
     const todayDate = new Date().toISOString().split('T')[0];
 
     return {
@@ -44,7 +47,9 @@ export class UserEntity implements UserValidatorInterface {
     const password = this.user.password
       ? new HasherAdapter().hash(this.user.password, 10)
       : mainUser.password;
-    const isAdmin = this.user.secret && this.user.secret === process.env.SECRET;
+    const isAdmin =
+      this.user.secret &&
+      this.user.secret === new EnvVarsAdapter().adminPassword;
 
     return {
       id: mainUser.id,
