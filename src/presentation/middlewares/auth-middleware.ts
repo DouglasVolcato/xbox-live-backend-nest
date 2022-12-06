@@ -19,7 +19,7 @@ export class AuthMiddleware implements AuthMiddlewareInterface {
         throw new UnauthorizedError();
       }
 
-      const user = await new TokenHandlerAdapter().validateToken(split[0]);
+      const user = await new TokenHandlerAdapter().validateToken(split[1]);
 
       return user;
     } catch (error) {
