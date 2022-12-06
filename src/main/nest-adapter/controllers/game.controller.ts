@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   UseInterceptors,
+  Headers,
 } from '@nestjs/common';
 import { HttpResponse } from 'src/domain/http/http-response';
 import { makeGameControllerFactory } from 'src/main/factories/game-controller-factory';
@@ -32,8 +33,11 @@ export class GameController {
     description: 'Bad request.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async create(@Body() body: NestGameDto) {
-    const http = new HttpRequestHandler({ body });
+  async create(
+    @Body() body: NestGameDto,
+    @Headers() headers: { authorization: string },
+  ) {
+    const http = new HttpRequestHandler({ body, headers });
     return await game.create(http.request());
   }
 
@@ -50,8 +54,10 @@ export class GameController {
     description: 'Games not found.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async getAll(): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({});
+  async getAll(
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ headers });
     return await game.getAll(http.request());
   }
 
@@ -68,8 +74,11 @@ export class GameController {
     description: 'Game not found.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async getOneById(@Param('id') id: string): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id } });
+  async getOneById(
+    @Param('id') id: string,
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ params: { id }, headers });
     return await game.getOne(http.request());
   }
 
@@ -86,8 +95,11 @@ export class GameController {
     description: 'Bad request.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async delete(@Param('id') id: string): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id } });
+  async delete(
+    @Param('id') id: string,
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ params: { id }, headers });
     return await game.delete(http.request());
   }
 
@@ -107,8 +119,9 @@ export class GameController {
   async update(
     @Param('id') id: string,
     @Body() body: NestGameDto,
+    @Headers() headers: { authorization: string },
   ): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id }, body });
+    const http = new HttpRequestHandler({ params: { id }, body, headers });
     return await game.update(http.request());
   }
 }

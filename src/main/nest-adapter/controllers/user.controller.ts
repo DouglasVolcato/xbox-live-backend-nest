@@ -9,6 +9,7 @@ import {
   Param,
   Patch,
   Post,
+  Headers,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -33,8 +34,11 @@ export class UserController {
     description: 'Bad request.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async create(@Body() body: NestUserDto) {
-    const http = new HttpRequestHandler({ body });
+  async create(
+    @Body() body: NestUserDto,
+    @Headers() headers: { authorization: string },
+  ) {
+    const http = new HttpRequestHandler({ body, headers });
     return await user.create(http.request());
   }
 
@@ -51,8 +55,10 @@ export class UserController {
     description: 'Users not found.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async getAll(): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({});
+  async getAll(
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ headers });
     return await user.getAll(http.request());
   }
 
@@ -69,8 +75,11 @@ export class UserController {
     description: 'User not found.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async getOneById(@Param('id') id: string): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id } });
+  async getOneById(
+    @Param('id') id: string,
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ params: { id }, headers });
     return await user.getOneById(http.request());
   }
 
@@ -87,8 +96,11 @@ export class UserController {
     description: 'User not found.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async getOneByEmail(@Body() body: EmailDto): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ body });
+  async getOneByEmail(
+    @Body() body: EmailDto,
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ body, headers });
     return await user.getOneByEmail(http.request());
   }
 
@@ -105,8 +117,11 @@ export class UserController {
     description: 'Bad request.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async delete(@Param('id') id: string): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id } });
+  async delete(
+    @Param('id') id: string,
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ params: { id }, headers });
     return await user.delete(http.request());
   }
 
@@ -126,8 +141,9 @@ export class UserController {
   async update(
     @Param('id') id: string,
     @Body() body: NestUserDto,
+    @Headers() headers: { authorization: string },
   ): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id }, body });
+    const http = new HttpRequestHandler({ params: { id }, body, headers });
     return await user.update(http.request());
   }
 }

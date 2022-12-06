@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   UseInterceptors,
+  Headers,
 } from '@nestjs/common';
 import { HttpResponse } from 'src/domain/http/http-response';
 import { makeProfileControllerFactory } from 'src/main/factories/profile-controller-factory';
@@ -32,8 +33,11 @@ export class ProfileController {
     description: 'Bad request.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async create(@Body() body: NestProfileDto) {
-    const http = new HttpRequestHandler({ body });
+  async create(
+    @Body() body: NestProfileDto,
+    @Headers() headers: { authorization: string },
+  ) {
+    const http = new HttpRequestHandler({ body, headers });
     return await profile.create(http.request());
   }
 
@@ -50,8 +54,10 @@ export class ProfileController {
     description: 'Profiles not found.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async getAll(): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({});
+  async getAll(
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ headers });
     return await profile.getAll(http.request());
   }
 
@@ -68,8 +74,11 @@ export class ProfileController {
     description: 'Profile not found.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async getOneById(@Param('id') id: string): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id } });
+  async getOneById(
+    @Param('id') id: string,
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ params: { id }, headers });
     return await profile.getOne(http.request());
   }
 
@@ -86,8 +95,11 @@ export class ProfileController {
     description: 'Bad request.',
   })
   @UseInterceptors(ResponseInterceptor)
-  async delete(@Param('id') id: string): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id } });
+  async delete(
+    @Param('id') id: string,
+    @Headers() headers: { authorization: string },
+  ): Promise<HttpResponse> {
+    const http = new HttpRequestHandler({ params: { id }, headers });
     return await profile.delete(http.request());
   }
 
@@ -107,8 +119,9 @@ export class ProfileController {
   async update(
     @Param('id') id: string,
     @Body() body: NestProfileDto,
+    @Headers() headers: { authorization: string },
   ): Promise<HttpResponse> {
-    const http = new HttpRequestHandler({ params: { id }, body });
+    const http = new HttpRequestHandler({ params: { id }, body, headers });
     return await profile.update(http.request());
   }
 }
