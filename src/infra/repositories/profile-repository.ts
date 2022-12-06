@@ -4,6 +4,7 @@ import { prismaDatabase } from '../database/prisma-database';
 
 export class ProfileRepository implements ProfileRepositoryInterface {
   async create(body: ProfileEntityInterface): Promise<ProfileEntityInterface> {
+    delete body.favoriteGames;
     return await prismaDatabase.profile.create({
       data: body,
       include: { favoriteGames: true },
