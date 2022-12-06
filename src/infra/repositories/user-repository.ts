@@ -35,6 +35,7 @@ export class UserRepository implements UserRepositoryInterface {
     body: UserEntityInterface,
     id: string,
   ): Promise<UserEntityInterface> {
+    delete body.profiles;
     return await prismaDatabase.user.update({
       where: { id: id },
       data: body,
