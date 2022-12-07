@@ -24,14 +24,15 @@ model User {
 }
 
 model Profile {
-  id            String @id @unique
+  id            String   @id @unique
   title         String
   imageUrl      String
   createdAt     String
   updatedAt     String
   userId        String
-  User          User   @relation(fields: [userId], references: [id])
-  favoriteGames Game[]
+  User          User     @relation(fields: [userId], references: [id])
+  favoriteGames String[]
+  Game          Game[]
 }
 
 model Game {
