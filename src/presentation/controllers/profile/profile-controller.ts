@@ -116,7 +116,7 @@ export class ProfileController implements ProfileControllerInterface {
     try {
       const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
-      const deleted = await this.deleteProfileUseCase.execute(authUser.id, id);
+      const deleted = await this.deleteProfileUseCase.execute(id, authUser.id);
 
       if (deleted) {
         const http = new HttpResponseHandler({ message: 'Profile deleted.' });
