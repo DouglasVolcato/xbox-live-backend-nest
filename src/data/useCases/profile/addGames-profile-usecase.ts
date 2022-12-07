@@ -5,10 +5,14 @@ import { InvalidParamError } from 'src/utils/errors';
 export class AddGamesProfileUseCase implements AddGamesProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
-  async execute(profileId: string, gameIds: string[]): Promise<boolean> {
+  async execute(
+    profileId: string,
+    gameIds: string[],
+    userId: string,
+  ): Promise<boolean> {
     const foundProfile = await this.repository.getOne(profileId);
 
-    if (foundProfile) {
+    if (foundProfile && foundProfile.userId === userId) {
       const newFavoriteGames = gameIds.map((gameId) => {
         if (!foundProfile.favoriteGames.find((id) => id === gameId)) {
           return gameId;

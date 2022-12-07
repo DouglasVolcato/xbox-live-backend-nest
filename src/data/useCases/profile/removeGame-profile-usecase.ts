@@ -7,10 +7,14 @@ export class RemoveGamesProfileUseCase
 {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
-  async execute(profileId: string, gameIds: string[]): Promise<boolean> {
+  async execute(
+    profileId: string,
+    gameIds: string[],
+    userId: string,
+  ): Promise<boolean> {
     const foundProfile = await this.repository.getOne(profileId);
 
-    if (foundProfile) {
+    if (foundProfile && foundProfile.userId === userId) {
       const currentFavoriteGames = foundProfile.favoriteGames;
       const updatedFavoriteGames = currentFavoriteGames
         .filter((item) => !gameIds.find((id) => id === item))
