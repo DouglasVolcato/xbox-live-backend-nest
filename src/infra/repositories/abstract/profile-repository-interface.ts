@@ -2,18 +2,16 @@ import { ProfileEntityInterface } from '../../../domain/entities/profile-entity-
 
 export interface ProfileRepositoryInterface {
   create(body: ProfileEntityInterface): Promise<ProfileEntityInterface>;
-  getOne(
-    profileId: string,
-    userId: string,
-  ): Promise<ProfileEntityInterface | void>;
-  getAll(userId: string): Promise<ProfileEntityInterface[] | []>;
+  getOne(profileId: string): Promise<ProfileEntityInterface | void>;
+  getAll(): Promise<ProfileEntityInterface[] | []>;
   update(
     body: ProfileEntityInterface,
     profileid: string,
-    userId: string,
   ): Promise<ProfileEntityInterface | void>;
-  delete(
+  delete(profileId: string): Promise<ProfileEntityInterface | void>;
+
+  updateFavoriteGames(
     profileId: string,
-    userId: string,
-  ): Promise<ProfileEntityInterface | void>;
+    favoriteGames: string[],
+  ): Promise<void | ProfileEntityInterface>;
 }
