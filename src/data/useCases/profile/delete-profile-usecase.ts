@@ -5,9 +5,15 @@ export class DeleteProfileUseCase implements DeleteProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
   async execute(profileId: string, userId: string): Promise<boolean> {
-    const deletedProfile = await this.repository.delete(profileId, userId);
-    if (deletedProfile) {
-      return true;
+    const foundProfile = await this.repository.getOne(profileId);
+
+    if (foundProfile && foundProfile.userId === userId) {
+      const deletedProfile = await this.repository.delete(profileId);
+      if (deletedProfile) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
       return false;
     }

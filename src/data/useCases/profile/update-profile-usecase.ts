@@ -12,14 +12,13 @@ export class UpdateProfileUseCase implements UpdateProfileUseCaseInterface {
     profileId: string,
     userId: string,
   ): Promise<boolean> {
-    const foundProfile = await this.repository.getOne(profileId, userId);
+    const foundProfile = await this.repository.getOne(profileId);
 
-    if (foundProfile) {
+    if (foundProfile && foundProfile.userId === userId) {
       const updatedBody = new ProfileEntity(body).updateBody(foundProfile);
       const updatedProfile = await this.repository.update(
         updatedBody,
         profileId,
-        userId,
       );
 
       if (updatedProfile) {

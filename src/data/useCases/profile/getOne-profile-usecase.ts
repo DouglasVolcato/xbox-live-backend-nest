@@ -9,6 +9,10 @@ export class GetOneProfileUseCase implements GetOneProfileUseCaseInterface {
     profileId: string,
     userId: string,
   ): Promise<ProfileEntityInterface | void> {
-    return await this.repository.getOne(profileId, userId);
+    const foundProfile = await this.repository.getOne(profileId);
+
+    if (foundProfile && foundProfile.userId === userId) {
+      return foundProfile;
+    }
   }
 }
