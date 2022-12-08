@@ -12,7 +12,12 @@ import {
 import { HttpResponse } from 'src/domain/http/http-response';
 import { makeGameControllerFactory } from 'src/main/factories/game-controller-factory';
 import { HttpRequestHandler } from 'src/utils/handlers/http/http-request-handler';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { NestGameDto } from '../dtos/game.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
 const game = makeGameControllerFactory();
@@ -32,6 +37,7 @@ export class GameController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async create(
     @Body() body: NestGameDto,
@@ -53,6 +59,7 @@ export class GameController {
     status: 404,
     description: 'Games not found.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getAll(
     @Headers() headers: { authorization: string },
@@ -73,6 +80,7 @@ export class GameController {
     status: 404,
     description: 'Game not found.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getOneById(
     @Param('id') id: string,
@@ -94,6 +102,7 @@ export class GameController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async delete(
     @Param('id') id: string,
@@ -115,6 +124,7 @@ export class GameController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async update(
     @Param('id') id: string,

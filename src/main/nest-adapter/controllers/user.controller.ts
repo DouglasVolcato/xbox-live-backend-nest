@@ -12,7 +12,7 @@ import {
   Headers,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NestUserDto } from '../dtos/user.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
 import { EmailDto } from '../dtos/email.dto';
@@ -54,6 +54,7 @@ export class UserController {
     status: 404,
     description: 'Users not found.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getAll(
     @Headers() headers: { authorization: string },
@@ -74,6 +75,7 @@ export class UserController {
     status: 404,
     description: 'User not found.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getOneById(
     @Param('id') id: string,
@@ -95,6 +97,7 @@ export class UserController {
     status: 404,
     description: 'User not found.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getOneByEmail(
     @Body() body: EmailDto,
@@ -116,6 +119,7 @@ export class UserController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async delete(
     @Param('id') id: string,
@@ -137,6 +141,7 @@ export class UserController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async update(
     @Param('id') id: string,
