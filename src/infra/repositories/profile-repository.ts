@@ -56,4 +56,14 @@ export class ProfileRepository implements ProfileRepositoryInterface {
       },
     });
   }
+
+  async validateGame(gameId: string): Promise<boolean> {
+    return (await prismaDatabase.game.findUnique({
+      where: {
+        id: gameId,
+      },
+    }))
+      ? true
+      : false;
+  }
 }

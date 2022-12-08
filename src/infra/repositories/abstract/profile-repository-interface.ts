@@ -9,9 +9,9 @@ export interface ProfileRepositoryInterface {
     profileid: string,
   ): Promise<ProfileEntityInterface | void>;
   delete(profileId: string): Promise<ProfileEntityInterface | void>;
-
   updateFavoriteGames(
     profileId: string,
     favoriteGames: string[],
   ): Promise<void | ProfileEntityInterface>;
+  validateGame(gameId: string): Promise<boolean>;
 }
