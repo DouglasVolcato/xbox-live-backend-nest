@@ -171,7 +171,7 @@ export class ProfileController implements ProfileControllerInterface {
       );
 
       if (deletedGames) {
-        const http = new HttpResponseHandler({ message: 'Game(s) deleted.' });
+        const http = new HttpResponseHandler({ message: 'Game(s) removed.' });
         return http.ok();
       } else {
         const http = new HttpResponseHandler({ message: 'An error occurred.' });
