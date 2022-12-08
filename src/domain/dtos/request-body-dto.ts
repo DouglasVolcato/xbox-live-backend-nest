@@ -17,5 +17,6 @@ export interface RequestBodyDto {
     password?: string;
     cpf?: string;
     isAdmin?: boolean;
+    favoriteGames?: string[];
   };
 }

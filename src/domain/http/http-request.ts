@@ -2,6 +2,7 @@ export interface HttpRequest {
   authorization?: string;
   id?: string;
   body?: {
+    favoriteGames?: string[];
     userId?: string;
     coverImageUrl?: string;
     description?: string;
