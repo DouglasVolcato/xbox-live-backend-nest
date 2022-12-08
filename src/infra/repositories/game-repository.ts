@@ -30,6 +30,23 @@ export class GameRepository implements GameRepositoryInterface {
   }
 
   async delete(id: string): Promise<void | GameEntityInterface> {
+    await prismaDatabase.profile.findMany().then(async (profiles) =>
+      profiles.filter(async (profile) => {
+        if (profile.favoriteGames.find((item) => item === id)) {
+          const updatedFavoriteGames = profile.favoriteGames.filter(
+            (gameId) => gameId !== id,
+          );
+          await prismaDatabase.profile.update({
+            where: {
+              id: profile.id,
+            },
+            data: {
+              favoriteGames: updatedFavoriteGames,
+            },
+          });
+        }
+      }),
+    );
     return await prismaDatabase.game.delete({
       where: { id: id },
     });
