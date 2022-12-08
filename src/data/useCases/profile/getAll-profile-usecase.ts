@@ -6,9 +6,12 @@ export class GetAllProfilesUseCase implements GetAllProfilesUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
   async execute(userId: string): Promise<ProfileEntityInterface[] | []> {
-    const foundProfiles = await this.repository.getAll();
+    const foundProfiles = await this.repository
+      .getAll()
+      .then((items) => items.filter((profile) => profile.userId === userId));
+      
     if (foundProfiles) {
-      return foundProfiles.filter((profile) => profile.userId === userId);
+      return foundProfiles;
     } else {
       return [];
     }
