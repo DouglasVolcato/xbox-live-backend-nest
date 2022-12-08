@@ -10,20 +10,20 @@ export class AuthMiddleware implements AuthMiddlewareInterface {
       const authorization = httpRequest.authorization;
 
       if (!authorization) {
-        throw new UnauthorizedError();
+        throw new UnauthorizedError('Invalid Token');
       }
 
       const split = authorization.split(' ');
 
       if (!split || split[0] !== 'Bearer' || split.length !== 2) {
-        throw new UnauthorizedError();
+        throw new UnauthorizedError('Invalid Token');
       }
 
       const user = await new TokenHandlerAdapter().validateToken(split[1]);
 
       return user;
     } catch (error) {
-      throw new UnauthorizedError();
+      throw new UnauthorizedError('Invalid Token');
     }
   }
 }
