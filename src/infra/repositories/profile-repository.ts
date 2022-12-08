@@ -1,3 +1,4 @@
+import { GameEntityInterface } from 'src/domain/entities/game-entity-interface';
 import { ProfileEntityInterface } from 'src/domain/entities/profile-entity-interface';
 import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
 import { prismaDatabase } from '../database/prisma-database';
@@ -57,13 +58,7 @@ export class ProfileRepository implements ProfileRepositoryInterface {
     });
   }
 
-  async validateGame(gameId: string): Promise<boolean> {
-    return (await prismaDatabase.game.findUnique({
-      where: {
-        id: gameId,
-      },
-    }))
-      ? true
-      : false;
+  async getAllGames(): Promise<GameEntityInterface[]> {
+    return await prismaDatabase.game.findMany();
   }
 }

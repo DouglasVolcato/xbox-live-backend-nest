@@ -1,3 +1,4 @@
+import { GameEntityInterface } from 'src/domain/entities/game-entity-interface';
 import { ProfileEntityInterface } from '../../../domain/entities/profile-entity-interface';
 
 export interface ProfileRepositoryInterface {
@@ -13,5 +14,5 @@ export interface ProfileRepositoryInterface {
     profileId: string,
     favoriteGames: string[],
   ): Promise<void | ProfileEntityInterface>;
-  validateGame(gameId: string): Promise<boolean>;
+  getAllGames(): Promise<GameEntityInterface[]>;
 }

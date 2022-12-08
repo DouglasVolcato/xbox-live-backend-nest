@@ -11,22 +11,26 @@ export class AddGamesProfileUseCase implements AddGamesProfileUseCaseInterface {
     userId: string,
   ): Promise<boolean> {
     const foundProfile = await this.repository.getOne(profileId);
+    const foundGames = await (
+      await this.repository.getAllGames()
+    ).map((game) => game.id);
 
     if (foundProfile && foundProfile.userId === userId) {
-      const newFavoriteGames = [];
-      gameIds.map(async (gameId) => {
-        if (!foundProfile.favoriteGames.find((id) => id === gameId)) {
-          if (await this.repository.validateGame(gameId)) {
-            newFavoriteGames.push(gameId);
-          }
+      const newFavoriteGames = gameIds.filter((gameId) => {
+        if (
+          !foundProfile.favoriteGames.includes(gameId) &&
+          foundGames.includes(gameId)
+        ) {
+          return gameId;
         }
       });
+
       const updatedFavoriteGames = [
         ...foundProfile.favoriteGames,
         ...newFavoriteGames,
       ].sort();
 
-      const updatedProfile = this.repository.updateFavoriteGames(
+      const updatedProfile = await this.repository.updateFavoriteGames(
         profileId,
         updatedFavoriteGames,
       );
