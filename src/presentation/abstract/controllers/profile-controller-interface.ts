@@ -7,4 +7,6 @@ export interface ProfileControllerInterface {
   getAll(httpRequest: HttpRequest): Promise<HttpResponse>;
   update(httpRequest: HttpRequest): Promise<HttpResponse>;
   delete(httpRequest: HttpRequest): Promise<HttpResponse>;
+  addGames(httpRequest: HttpRequest): Promise<HttpResponse>;
+  removeGames(httpRequest: HttpRequest): Promise<HttpResponse>;
 }

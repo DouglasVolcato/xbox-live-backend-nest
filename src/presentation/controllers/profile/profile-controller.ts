@@ -10,6 +10,8 @@ import {
 } from './interface-imports';
 import { HttpResponseHandler } from 'src/utils/handlers/http/http-response-handler';
 import { AuthMiddlewareInterface } from 'src/presentation/abstract/middlewares/auth-middleware-interface';
+import { AddGamesProfileUseCaseInterface } from 'src/data/abstract/profile/addGames-profile-interface';
+import { RemoveGamesProfileUseCaseInterface } from 'src/data/abstract/profile/removeGames-profile-interface';
 
 export class ProfileController implements ProfileControllerInterface {
   constructor(
@@ -19,6 +21,8 @@ export class ProfileController implements ProfileControllerInterface {
     private readonly getAllProfilesUseCase: GetAllProfilesUseCaseInterface,
     private readonly updateProfileUseCase: UpdateProfileUseCaseInterface,
     private readonly deleteProfileUseCase: DeleteProfileUseCaseInterface,
+    private readonly addGamesProfileUseCase: AddGamesProfileUseCaseInterface,
+    private readonly removeGamesProfileUseCase: RemoveGamesProfileUseCaseInterface,
   ) {}
 
   async create(httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -120,6 +124,54 @@ export class ProfileController implements ProfileControllerInterface {
 
       if (deleted) {
         const http = new HttpResponseHandler({ message: 'Profile deleted.' });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
+    }
+  }
+
+  async addGames(httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
+      const id = httpRequest.id;
+      const games = httpRequest.body.favoriteGames;
+      const addedGames = await this.addGamesProfileUseCase.execute(
+        id,
+        games,
+        authUser.id,
+      );
+
+      if (addedGames) {
+        const http = new HttpResponseHandler({ message: 'Game(s) added.' });
+        return http.ok();
+      } else {
+        const http = new HttpResponseHandler({ message: 'An error occurred.' });
+        return http.badRequest();
+      }
+    } catch (error) {
+      const http = new HttpResponseHandler(error);
+      return http.badRequest();
+    }
+  }
+
+  async removeGames(httpRequest: HttpRequest): Promise<HttpResponse> {
+    try {
+      const authUser = await this.authMiddleware.auth(httpRequest);
+      const id = httpRequest.id;
+      const games = httpRequest.body.favoriteGames;
+      const deletedGames = await this.removeGamesProfileUseCase.execute(
+        id,
+        games,
+        authUser.id,
+      );
+
+      if (deletedGames) {
+        const http = new HttpResponseHandler({ message: 'Game(s) deleted.' });
         return http.ok();
       } else {
         const http = new HttpResponseHandler({ message: 'An error occurred.' });
