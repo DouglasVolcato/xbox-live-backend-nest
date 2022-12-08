@@ -4,7 +4,7 @@ import { ProfileEntityInterface } from '../../../domain/entities/profile-entity-
 export interface ProfileRepositoryInterface {
   create(body: ProfileEntityInterface): Promise<ProfileEntityInterface>;
   getOne(profileId: string): Promise<ProfileEntityInterface | void>;
-  getAll(): Promise<ProfileEntityInterface[] | []>;
+  getAll(): Promise<ProfileEntityInterface[]>;
   update(
     body: ProfileEntityInterface,
     profileid: string,

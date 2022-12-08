@@ -5,13 +5,11 @@ import { ProfileEntityInterface } from 'src/domain/entities/profile-entity-inter
 export class GetAllProfilesUseCase implements GetAllProfilesUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
 
-  async execute(userId: string): Promise<ProfileEntityInterface[] | []> {
-    const foundProfiles = await this.repository
-      .getAll()
-      .then((items) => items.filter((profile) => profile.userId === userId));
-      
-    if (foundProfiles) {
-      return foundProfiles;
+  async execute(userId: string): Promise<ProfileEntityInterface[]> {
+    const foundProfiles = await this.repository.getAll();
+
+    if (foundProfiles.length !== 0) {
+      return foundProfiles.filter((profile) => profile.userId === userId);
     } else {
       return [];
     }
