@@ -37,6 +37,10 @@ export class GameController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async create(
@@ -59,6 +63,10 @@ export class GameController {
     status: 404,
     description: 'Games not found.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getAll(
@@ -79,6 +87,10 @@ export class GameController {
   @ApiResponse({
     status: 404,
     description: 'Game not found.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
   })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
@@ -102,6 +114,10 @@ export class GameController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async delete(
@@ -123,6 +139,10 @@ export class GameController {
   @ApiResponse({
     status: 400,
     description: 'Bad request.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
   })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)

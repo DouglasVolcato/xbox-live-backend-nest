@@ -12,7 +12,12 @@ import {
   Headers,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { NestUserDto } from '../dtos/user.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
 import { EmailDto } from '../dtos/email.dto';
@@ -54,6 +59,10 @@ export class UserController {
     status: 404,
     description: 'Users not found.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getAll(
@@ -74,6 +83,10 @@ export class UserController {
   @ApiResponse({
     status: 404,
     description: 'User not found.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
   })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
@@ -97,6 +110,10 @@ export class UserController {
     status: 404,
     description: 'User not found.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getOneByEmail(
@@ -119,6 +136,10 @@ export class UserController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async delete(
@@ -140,6 +161,10 @@ export class UserController {
   @ApiResponse({
     status: 400,
     description: 'Bad request.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
   })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)

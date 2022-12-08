@@ -38,6 +38,10 @@ export class ProfileController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async create(
@@ -60,6 +64,10 @@ export class ProfileController {
     status: 404,
     description: 'Profiles not found.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async getAll(
@@ -80,6 +88,10 @@ export class ProfileController {
   @ApiResponse({
     status: 404,
     description: 'Profile not found.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
   })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
@@ -103,6 +115,10 @@ export class ProfileController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async delete(
@@ -124,6 +140,10 @@ export class ProfileController {
   @ApiResponse({
     status: 400,
     description: 'Bad request.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
   })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
@@ -148,6 +168,10 @@ export class ProfileController {
     status: 400,
     description: 'Bad request.',
   })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
+  })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
   async addGames(
@@ -170,6 +194,10 @@ export class ProfileController {
   @ApiResponse({
     status: 400,
     description: 'Bad request.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized, invalid login info.',
   })
   @ApiBearerAuth()
   @UseInterceptors(ResponseInterceptor)
