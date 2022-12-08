@@ -13,9 +13,10 @@ export class AddGamesProfileUseCase implements AddGamesProfileUseCaseInterface {
     const foundProfile = await this.repository.getOne(profileId);
 
     if (foundProfile && foundProfile.userId === userId) {
-      const newFavoriteGames = gameIds.map((gameId) => {
+      const newFavoriteGames = [];
+      gameIds.map((gameId) => {
         if (!foundProfile.favoriteGames.find((id) => id === gameId)) {
-          return gameId;
+          newFavoriteGames.push(gameId);
         }
       });
       const updatedFavoriteGames = [
