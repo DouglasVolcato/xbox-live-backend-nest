@@ -9,11 +9,13 @@ import { ProfileRepository } from 'src/infra/repositories/profile-repository';
 import { ProfileControllerInterface } from 'src/presentation/abstract/controllers/profile-controller-interface';
 import { ProfileController } from 'src/presentation/controllers/profile/profile-controller';
 import { AuthMiddleware } from 'src/presentation/middlewares/auth-middleware';
+import { makeTokenHandler } from './token-handler-factory';
 
 export function makeProfileControllerFactory(): ProfileControllerInterface {
   const repository = new ProfileRepository();
 
-  const authMiddleware = new AuthMiddleware();
+  const authMiddleware = new AuthMiddleware(makeTokenHandler());
+
   const createProfileUseCase = new CreateProfileUseCase(repository);
   const getOneProfileUseCase = new GetOneProfileUseCase(repository);
   const getAllProfilesUseCase = new GetAllProfilesUseCase(repository);
@@ -22,7 +24,7 @@ export function makeProfileControllerFactory(): ProfileControllerInterface {
   const addGamesProfileUseCase = new AddGamesProfileUseCase(repository);
   const removeGamesProfileUseCase = new RemoveGamesProfileUseCase(repository);
 
-  const profileController = new ProfileController(
+  return new ProfileController(
     authMiddleware,
     createProfileUseCase,
     getOneProfileUseCase,
@@ -32,6 +34,4 @@ export function makeProfileControllerFactory(): ProfileControllerInterface {
     addGamesProfileUseCase,
     removeGamesProfileUseCase,
   );
-
-  return profileController;
 }

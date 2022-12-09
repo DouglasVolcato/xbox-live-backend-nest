@@ -6,20 +6,19 @@ import { TokenHandlerAdapter } from 'src/utils/adapters/token-handler-adapter';
 import { InvalidParamError } from 'src/utils/errors';
 
 export class LoginAuthUseCase implements LoginAuthUseCaseInterface {
-  constructor(private readonly repository: UserRepositoryInterface) {}
+  constructor(
+    private readonly repository: UserRepositoryInterface,
+    private readonly hasher: HasherAdapter,
+    private readonly tokenHandler: TokenHandlerAdapter,
+  ) {}
 
   async execute(body: LoginDto): Promise<string | null> {
     const foundUser = await this.repository.getOneByEmail(body.email);
     if (foundUser) {
-      const comparison = new HasherAdapter().compare(
-        body.password,
-        foundUser.password,
-      );
+      const comparison = this.hasher.compare(body.password, foundUser.password);
 
       if (comparison) {
-        const tokenHandler = new TokenHandlerAdapter();
-        const token = tokenHandler.generateToken(foundUser.id);
-        return token;
+        return this.tokenHandler.generateToken(foundUser.id);
       } else {
         throw new InvalidParamError('Password');
       }

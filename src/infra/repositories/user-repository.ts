@@ -6,7 +6,16 @@ export class UserRepository implements UserRepositoryInterface {
   async create(body: UserEntityInterface): Promise<UserEntityInterface> {
     delete body.profiles;
     return await prismaDatabase.user.create({
-      data: body,
+      data: {
+        id: body.id,
+        name: body.name,
+        email: body.email,
+        password: body.password,
+        cpf: body.cpf,
+        isAdmin: body.isAdmin,
+        createdAt: body.createdAt,
+        updatedAt: body.updatedAt,
+      },
       include: { profiles: true },
     });
   }
@@ -35,10 +44,18 @@ export class UserRepository implements UserRepositoryInterface {
     body: UserEntityInterface,
     id: string,
   ): Promise<UserEntityInterface> {
-    delete body.profiles;
     return await prismaDatabase.user.update({
       where: { id: id },
-      data: body,
+      data: {
+        id: body.id,
+        name: body.name,
+        email: body.email,
+        password: body.password,
+        cpf: body.cpf,
+        isAdmin: body.isAdmin,
+        createdAt: body.createdAt,
+        updatedAt: body.updatedAt,
+      },
       include: { profiles: true },
     });
   }

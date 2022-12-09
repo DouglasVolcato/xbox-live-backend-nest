@@ -1,12 +1,15 @@
 import { TokenHandlerInterface } from '../abstract/adapters/token-handler-interface';
 import * as jwt from 'jsonwebtoken';
-import { GetOneUserByIdUseCase } from 'src/data/useCases/user/getOne-user-byId-usecase';
-import { UserRepository } from 'src/infra/repositories/user-repository';
 import { InvalidParamError } from '../errors';
 import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
 import { EnvVarsAdapter } from './env-vars-adapter';
+import { GetOneUserByIdUseCaseInterface } from 'src/data/abstract/user/getOne-user-byId-interface';
 
 export class TokenHandlerAdapter implements TokenHandlerInterface {
+  constructor(
+    private readonly getOneUserByIdUseCase: GetOneUserByIdUseCaseInterface,
+  ) {}
+
   generateToken(userId: string): string {
     return jwt.sign({ id: userId }, new EnvVarsAdapter().secret, {
       expiresIn: 86400,
@@ -24,9 +27,7 @@ export class TokenHandlerAdapter implements TokenHandlerInterface {
             throw new InvalidParamError('Token');
           }
 
-          const userRepository = new UserRepository();
-          const getUserByIdUseCase = new GetOneUserByIdUseCase(userRepository);
-          const user = await getUserByIdUseCase.execute(decoded.id);
+          const user = await this.getOneUserByIdUseCase.execute(decoded.id);
 
           if (!user || !user.id) {
             throw new InvalidParamError('Token');
