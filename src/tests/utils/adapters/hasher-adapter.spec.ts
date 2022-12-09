@@ -13,10 +13,13 @@ function makeSut(): SutTypes {
   return { hasherAdapter };
 }
 
+let hashed_password = '';
+
 describe('HasherAdapter', () => {
   test('Hash method should return a string.', () => {
     const { hasherAdapter } = makeSut();
     const hash = hasherAdapter.hash('any_password', 10);
+    hashed_password = hash;
     expect(hash).toBeDefined();
     expect(typeof hash).toBe('string');
   });
@@ -28,11 +31,16 @@ describe('HasherAdapter', () => {
     expect(hash).rejects.toThrow();
   });
 
-  test('Compare should return a boolean.', () => {
+  test('Compare should return true if password matches with hashed password.', () => {
     const { hasherAdapter } = makeSut();
-    const compare = hasherAdapter.compare('any_password', 'hashed_password');
-    expect(compare).toBeDefined();
-    expect(typeof compare).toBe('boolean');
+    const compare = hasherAdapter.compare('any_password', hashed_password);
+    expect(compare).toBe(true);
+  });
+
+  test('Compare should return false if password does not match with hashed password.', () => {
+    const { hasherAdapter } = makeSut();
+    const compare = hasherAdapter.compare('wrong_password', hashed_password);
+    expect(compare).toBe(false);
   });
 
   test('Should throw if Compare throws.', () => {
