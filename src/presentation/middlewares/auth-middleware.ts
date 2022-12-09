@@ -5,6 +5,8 @@ import { AuthMiddlewareInterface } from '../abstract/middlewares/auth-middleware
 import { HttpRequest } from '../controllers/profile/interface-imports';
 
 export class AuthMiddleware implements AuthMiddlewareInterface {
+  constructor(private readonly tokenHandler: TokenHandlerAdapter) {}
+
   async auth(httpRequest: HttpRequest): Promise<UserEntityInterface> {
     try {
       const authorization = httpRequest.authorization;
@@ -19,7 +21,7 @@ export class AuthMiddleware implements AuthMiddlewareInterface {
         throw new UnauthorizedError('Invalid Token');
       }
 
-      const user = await new TokenHandlerAdapter().validateToken(split[1]);
+      const user = await this.tokenHandler.validateToken(split[1]);
 
       return user;
     } catch (error) {

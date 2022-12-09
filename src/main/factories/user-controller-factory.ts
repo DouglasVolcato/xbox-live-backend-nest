@@ -8,11 +8,13 @@ import { UserRepository } from 'src/infra/repositories/user-repository';
 import { UserControllerInterface } from 'src/presentation/abstract/controllers/user-controller-interface';
 import { UserController } from 'src/presentation/controllers/user/user-controller';
 import { AuthMiddleware } from 'src/presentation/middlewares/auth-middleware';
+import { makeTokenHandler } from './token-handler-factory';
 
 export function makeUserControllerFactory(): UserControllerInterface {
   const repository = new UserRepository();
 
-  const authMiddleware = new AuthMiddleware();
+  const authMiddleware = new AuthMiddleware(makeTokenHandler());
+
   const createUserUseCase = new CreateUserUseCase(repository);
   const getOneUserByEmailUseCase = new GetOneUserByEmailUseCase(repository);
   const getOneUserByIdUseCase = new GetOneUserByIdUseCase(repository);
@@ -20,7 +22,7 @@ export function makeUserControllerFactory(): UserControllerInterface {
   const updateUserUseCase = new UpdateUserUseCase(repository);
   const deleteUserUseCase = new DeleteUserUseCase(repository);
 
-  const userController = new UserController(
+  return new UserController(
     authMiddleware,
     createUserUseCase,
     getOneUserByEmailUseCase,
@@ -29,6 +31,4 @@ export function makeUserControllerFactory(): UserControllerInterface {
     updateUserUseCase,
     deleteUserUseCase,
   );
-
-  return userController;
 }
