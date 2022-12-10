@@ -1,6 +1,5 @@
-import { AddGamesProfileUseCaseInterface } from 'src/data/abstract/profile/addGames-profile-interface';
-import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
-import { InvalidParamError } from 'src/utils/errors';
+import { AddGamesProfileUseCaseInterface } from '../../../data/abstract/profile/addGames-profile-interface';
+import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
 
 export class AddGamesProfileUseCase implements AddGamesProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
@@ -41,7 +40,7 @@ export class AddGamesProfileUseCase implements AddGamesProfileUseCaseInterface {
         return false;
       }
     } else {
-      throw new InvalidParamError('ID');
+      return false;
     }
   }
 }
