@@ -1,20 +1,6 @@
+import { makeError } from '../../test-utils/make-error';
 import { TokenHandlerAdapter } from '../../../utils/adapters/token-handler-adapter';
-
-const fakeUser = {
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email',
-  password: 'any_password',
-  cpf: 'any_cpf',
-  isAdmin: true,
-  profiles: [],
-  createdAt: '2022/12/09',
-  updatedAt: '2022/12/09',
-};
-
-function error(): any {
-  return new Promise((resolve, reject) => reject(new Error()));
-}
+import { fakeUser } from '../../test-utils/fake-user';
 
 process.env.SECRET = 'any_secret';
 let token = '';
@@ -47,7 +33,7 @@ describe('TokenHandlerAdapter', () => {
     const { tokenHandlerAdapter } = makeSut();
     jest
       .spyOn(tokenHandlerAdapter, 'generateToken')
-      .mockReturnValueOnce(error());
+      .mockReturnValueOnce(makeError());
     const generatedToken = tokenHandlerAdapter.generateToken('any_id');
     expect(generatedToken).rejects.toThrow();
   });
@@ -62,7 +48,7 @@ describe('TokenHandlerAdapter', () => {
     const { tokenHandlerAdapter } = makeSut();
     jest
       .spyOn(tokenHandlerAdapter, 'validateToken')
-      .mockReturnValueOnce(error());
+      .mockReturnValueOnce(makeError());
     const validate = tokenHandlerAdapter.validateToken('any_token');
     expect(validate).rejects.toThrow();
   });
