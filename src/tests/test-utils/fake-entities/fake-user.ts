@@ -1,5 +1,5 @@
 export const fakeUser = {
-  id: 'any_id',
+  id: 'any_userId',
   name: 'any_name',
   email: 'any_email',
   password: 'any_password',
@@ -11,7 +11,7 @@ export const fakeUser = {
 };
 
 export const fakeUserWithoutPassword = {
-  id: 'any_id',
+  id: 'any_userId',
   name: 'any_name',
   email: 'any_email',
   cpf: 'any_cpf',

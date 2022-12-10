@@ -1,5 +1,5 @@
 export const fakeProfile = {
-  id: 'any_id',
+  id: 'any_profileId',
   title: 'any_title',
   imageUrl: 'any_imageUrl',
   favoriteGames: [],
