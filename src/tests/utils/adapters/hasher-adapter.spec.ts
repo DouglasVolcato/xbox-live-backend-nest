@@ -1,8 +1,5 @@
+import { makeError } from '../../test-utils/make-error';
 import { HasherAdapter } from '../../../utils/adapters/hasher-adapter';
-
-function error(): any {
-  return new Promise((resolve, reject) => reject(new Error()));
-}
 
 interface SutTypes {
   hasherAdapter: HasherAdapter;
@@ -26,7 +23,7 @@ describe('HasherAdapter', () => {
 
   test('Should throw if Hash throws.', () => {
     const { hasherAdapter } = makeSut();
-    jest.spyOn(hasherAdapter, 'hash').mockReturnValueOnce(error());
+    jest.spyOn(hasherAdapter, 'hash').mockReturnValueOnce(makeError());
     const hash = hasherAdapter.hash('any_password', 10);
     expect(hash).rejects.toThrow();
   });
@@ -45,7 +42,7 @@ describe('HasherAdapter', () => {
 
   test('Should throw if Compare throws.', () => {
     const { hasherAdapter } = makeSut();
-    jest.spyOn(hasherAdapter, 'compare').mockReturnValueOnce(error());
+    jest.spyOn(hasherAdapter, 'compare').mockReturnValueOnce(makeError());
     const compare = hasherAdapter.compare('any_password', 'hashed_password');
     expect(compare).rejects.toThrow();
   });

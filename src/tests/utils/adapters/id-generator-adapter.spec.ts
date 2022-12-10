@@ -1,8 +1,5 @@
+import { makeError } from '../../test-utils/make-error';
 import { IdGeneratorAdapter } from '../../../utils/adapters/id-generator-adapter';
-
-function error(): any {
-  return new Promise((resolve, reject) => reject(new Error()));
-}
 
 interface SutTypes {
   idGeneratorAdapter: IdGeneratorAdapter;
@@ -22,7 +19,9 @@ describe('IdGeneratorAdapter', () => {
 
   test('Should throw if GenerateId throws.', () => {
     const { idGeneratorAdapter } = makeSut();
-    jest.spyOn(idGeneratorAdapter, 'generateId').mockReturnValueOnce(error());
+    jest
+      .spyOn(idGeneratorAdapter, 'generateId')
+      .mockReturnValueOnce(makeError());
     const id = idGeneratorAdapter.generateId();
     expect(id).rejects.toThrow();
   });
