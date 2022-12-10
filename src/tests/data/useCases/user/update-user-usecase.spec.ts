@@ -40,4 +40,13 @@ describe('UpdateUserUseCase', () => {
     const promise = await updateUserUseCase.execute(fakeUser, fakeUser.id);
     expect(promise).toBe(true);
   });
+
+  test('Should return false UserRepository.getOneById returns void.', async () => {
+    const { updateUserUseCase, userRepositoryStub } = makeSut();
+    jest
+      .spyOn(userRepositoryStub, 'update')
+      .mockReturnValueOnce(new Promise((resolve) => resolve()));
+    const promise = await updateUserUseCase.execute(fakeUser, fakeUser.id);
+    expect(promise).toBeFalsy();
+  });
 });
