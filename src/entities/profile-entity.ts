@@ -1,8 +1,8 @@
 import { ProfileDto } from 'src/domain/dtos/profile-dto';
-import { ProfileEntityInterface } from 'src/domain/entities/profile-entity-interface';
-import { ProfileValidatorInterface } from 'src/entities/abstract/profile-validator-interface';
-import { IdGeneratorAdapter } from 'src/utils/adapters/id-generator-adapter';
-import { MissingParamError } from 'src/utils/errors';
+import { ProfileEntityInterface } from '../domain/entities/profile-entity-interface';
+import { ProfileValidatorInterface } from '../entities/abstract/profile-validator-interface';
+import { IdGeneratorAdapter } from '../utils/adapters/id-generator-adapter';
+import { MissingParamError } from '../utils/errors';
 
 export class ProfileEntity implements ProfileValidatorInterface {
   constructor(private readonly profile: ProfileDto) {}
