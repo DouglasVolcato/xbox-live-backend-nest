@@ -1,6 +1,7 @@
 import { GameEntityInterface } from '../../../../domain/entities/game-entity-interface';
 import { ProfileEntityInterface } from '../../../../domain/entities/profile-entity-interface';
 import { ProfileRepositoryInterface } from '../../../../infra/repositories/abstract/profile-repository-interface';
+import { fakeGame } from '../../fake-entities/fake-game';
 import { fakeProfile } from '../../fake-entities/fake-profile';
 
 export class ProfileRepositoryStub implements ProfileRepositoryInterface {
@@ -23,6 +24,6 @@ export class ProfileRepositoryStub implements ProfileRepositoryInterface {
     return new Promise((resolve) => resolve(fakeProfile));
   }
   getAllGames(): Promise<GameEntityInterface[]> {
-    throw new Error('Method not implemented.');
+    return new Promise((resolve) => resolve([fakeGame]));
   }
 }
