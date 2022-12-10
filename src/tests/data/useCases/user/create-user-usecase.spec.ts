@@ -18,7 +18,7 @@ function makeSut(): SutTypes {
 }
 
 describe('CreateUserUseCase', () => {
-  test('Should call userRepository with correct value.', async () => {
+  test('Should call UserRepository with correct value.', async () => {
     const { createUserUseCase, userRepositoryStub } = makeSut();
     const createSpy = jest.spyOn(userRepositoryStub, 'create');
     await createUserUseCase.execute(fakeUser);
@@ -27,7 +27,7 @@ describe('CreateUserUseCase', () => {
     );
   });
 
-  test('Should throw if userRepository throws.', async () => {
+  test('Should throw if UserRepository throws.', async () => {
     const { createUserUseCase, userRepositoryStub } = makeSut();
     jest.spyOn(userRepositoryStub, 'create').mockReturnValueOnce(makeError());
     const promise = createUserUseCase.execute(fakeUser);
