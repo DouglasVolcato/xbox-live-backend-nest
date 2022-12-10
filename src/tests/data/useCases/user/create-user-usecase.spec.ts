@@ -1,10 +1,10 @@
-import { makeError } from '../../../test-utils/make-error';
+import { makeError } from '../../../test-utils/errors/make-error';
 import { CreateUserUseCase } from '../../../../data/useCases/user/create-user-usecase';
 import {
   fakeUser,
   fakeUserWithoutPassword,
-} from '../../../test-utils/fake-user';
-import { UserRepositoryStub } from '../../../test-utils/user-repository-stub';
+} from '../../../test-utils/fake-entities/fake-user';
+import { UserRepositoryStub } from '../../../test-utils/stubs/repositories/user-repository-stub';
 
 interface SutTypes {
   createUserUseCase: CreateUserUseCase;

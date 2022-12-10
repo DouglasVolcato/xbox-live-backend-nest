@@ -1,10 +1,10 @@
-import { UserEntityInterface } from '../../domain/entities/user-entity-interface';
-import { UserRepositoryInterface } from '../../infra/repositories/abstract/user-repository-interface';
-import { fakeUser } from './fake-user';
+import { UserEntityInterface } from '../../../../domain/entities/user-entity-interface';
+import { UserRepositoryInterface } from '../../../../infra/repositories/abstract/user-repository-interface';
+import { fakeUser } from '../../fake-entities/fake-user';
 
 export class UserRepositoryStub implements UserRepositoryInterface {
-  create(body: UserEntityInterface): Promise<UserEntityInterface> {
-    return new Promise((resolve) => resolve(body));
+  create(): Promise<UserEntityInterface> {
+    return new Promise((resolve) => resolve(fakeUser));
   }
   getOneByEmail(): Promise<void | UserEntityInterface> {
     return new Promise((resolve) => resolve(fakeUser));

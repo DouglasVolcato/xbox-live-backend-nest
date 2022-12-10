@@ -1,6 +1,6 @@
-import { fakeUser } from '../../../test-utils/fake-user';
-import { UserRepositoryStub } from '../../../test-utils/user-repository-stub';
-import { makeError } from '../../../test-utils/make-error';
+import { fakeUser } from '../../../test-utils/fake-entities/fake-user';
+import { UserRepositoryStub } from '../../../test-utils/stubs/repositories/user-repository-stub';
+import { makeError } from '../../../test-utils/errors/make-error';
 import { GetOneUserByIdUseCase } from '../../../../data/useCases/user/getOne-user-byId-usecase';
 
 interface SutTypes {

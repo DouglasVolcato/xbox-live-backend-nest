@@ -1,4 +1,4 @@
-import { makeError } from '../../test-utils/make-error';
+import { makeError } from '../../test-utils/errors/make-error';
 import { HasherAdapter } from '../../../utils/adapters/hasher-adapter';
 
 interface SutTypes {

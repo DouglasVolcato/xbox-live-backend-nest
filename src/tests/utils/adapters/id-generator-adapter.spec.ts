@@ -1,4 +1,4 @@
-import { makeError } from '../../test-utils/make-error';
+import { makeError } from '../../test-utils/errors/make-error';
 import { IdGeneratorAdapter } from '../../../utils/adapters/id-generator-adapter';
 
 interface SutTypes {

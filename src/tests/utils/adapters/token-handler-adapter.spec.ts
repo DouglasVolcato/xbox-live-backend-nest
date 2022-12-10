@@ -1,6 +1,6 @@
-import { makeError } from '../../test-utils/make-error';
+import { makeError } from '../../test-utils/errors/make-error';
 import { TokenHandlerAdapter } from '../../../utils/adapters/token-handler-adapter';
-import { fakeUser } from '../../test-utils/fake-user';
+import { fakeUser } from '../../test-utils/fake-entities/fake-user';
 
 process.env.SECRET = 'any_secret';
 let token = '';
