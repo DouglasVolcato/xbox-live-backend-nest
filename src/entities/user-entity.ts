@@ -1,10 +1,10 @@
-import { UserDto } from 'src/domain/dtos/user-dto';
-import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
-import { UserValidatorInterface } from 'src/entities/abstract/user-validator-interface';
-import { EnvVarsAdapter } from 'src/utils/adapters/env-vars-adapter';
-import { HasherAdapter } from 'src/utils/adapters/hasher-adapter';
-import { IdGeneratorAdapter } from 'src/utils/adapters/id-generator-adapter';
-import { MissingParamError } from 'src/utils/errors';
+import { UserDto } from '../domain/dtos/user-dto';
+import { UserEntityInterface } from '../domain/entities/user-entity-interface';
+import { UserValidatorInterface } from '../entities/abstract/user-validator-interface';
+import { EnvVarsAdapter } from '../utils/adapters/env-vars-adapter';
+import { HasherAdapter } from '../utils/adapters/hasher-adapter';
+import { IdGeneratorAdapter } from '../utils/adapters/id-generator-adapter';
+import { MissingParamError } from '../utils/errors';
 
 export class UserEntity implements UserValidatorInterface {
   constructor(private readonly user: UserDto) {}

@@ -1,7 +1,7 @@
-import { UserDto } from 'src/domain/dtos/user-dto';
-import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
-import { CreateUserUseCaseInterface } from 'src/data/abstract/user/create-user-interface';
-import { UserEntity } from 'src/entities/user-entity';
+import { UserDto } from '../../../domain/dtos/user-dto';
+import { UserRepositoryInterface } from '../../../infra/repositories/abstract/user-repository-interface';
+import { CreateUserUseCaseInterface } from '../../../data/abstract/user/create-user-interface';
+import { UserEntity } from '../../../entities/user-entity';
 
 export class CreateUserUseCase implements CreateUserUseCaseInterface {
   constructor(private readonly repository: UserRepositoryInterface) {}
