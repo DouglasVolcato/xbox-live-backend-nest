@@ -1,6 +1,5 @@
-import { RemoveGamesProfileUseCaseInterface } from 'src/data/abstract/profile/removeGames-profile-interface';
-import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
-import { InvalidParamError } from 'src/utils/errors';
+import { RemoveGamesProfileUseCaseInterface } from '../../../data/abstract/profile/removeGames-profile-interface';
+import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
 
 export class RemoveGamesProfileUseCase
   implements RemoveGamesProfileUseCaseInterface
@@ -20,7 +19,7 @@ export class RemoveGamesProfileUseCase
         .filter((item) => !gameIds.find((id) => id === item))
         .sort();
 
-      const updatedProfile = this.repository.updateFavoriteGames(
+      const updatedProfile = await this.repository.updateFavoriteGames(
         profileId,
         updatedFavoriteGames,
       );
@@ -31,7 +30,7 @@ export class RemoveGamesProfileUseCase
         return false;
       }
     } else {
-      throw new InvalidParamError('ID');
+      return false;
     }
   }
 }
