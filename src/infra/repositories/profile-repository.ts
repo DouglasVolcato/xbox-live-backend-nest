@@ -8,6 +8,7 @@ export class ProfileRepository implements ProfileRepositoryInterface {
     delete body.favoriteGames;
     return await prismaDatabase.profile.create({
       data: body,
+      include: { Game: true },
     });
   }
 
@@ -16,11 +17,12 @@ export class ProfileRepository implements ProfileRepositoryInterface {
       where: {
         id: id,
       },
+      include: { Game: true },
     });
   }
 
   async getAll(): Promise<ProfileEntityInterface[]> {
-    return await prismaDatabase.profile.findMany();
+    return await prismaDatabase.profile.findMany({ include: { Game: true } });
   }
 
   async update(
@@ -37,12 +39,14 @@ export class ProfileRepository implements ProfileRepositoryInterface {
         createdAt: body.createdAt,
         updatedAt: body.updatedAt,
       },
+      include: { Game: true },
     });
   }
 
   async delete(id: string): Promise<void | ProfileEntityInterface> {
     return await prismaDatabase.profile.delete({
       where: { id: id },
+      include: { Game: true },
     });
   }
 
@@ -50,11 +54,16 @@ export class ProfileRepository implements ProfileRepositoryInterface {
     id: string,
     favoriteGames: string[],
   ): Promise<void | ProfileEntityInterface> {
+    const newGameList = favoriteGames.map((game) => {
+      return { id: game };
+    });
     return await prismaDatabase.profile.update({
       where: { id: id },
       data: {
         favoriteGames: favoriteGames,
+        Game: { set: newGameList },
       },
+      include: { Game: true },
     });
   }
 
