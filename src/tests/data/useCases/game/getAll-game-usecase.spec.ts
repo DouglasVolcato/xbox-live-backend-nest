@@ -22,7 +22,7 @@ describe('GetAllGamesUseCase', () => {
     expect(games[0]).toBe(fakeGame);
   });
 
-  test('Should throw if GameRepsitory throws.', async () => {
+  test('Should throw if GameRepository throws.', async () => {
     const { getAllGamesUseCase, gameRepositoryStub } = makeSut();
     jest.spyOn(gameRepositoryStub, 'getAll').mockReturnValueOnce(makeError());
     const promise = getAllGamesUseCase.execute();
