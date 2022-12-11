@@ -1,7 +1,7 @@
-import { CreateGameUseCaseInterface } from 'src/data/abstract/game/create-game-interface';
-import { GameRepositoryInterface } from 'src/infra/repositories/abstract/game-repository-interface';
-import { GameDto } from 'src/domain/dtos/game-dto';
-import { GameEntity } from 'src/entities/game-entity';
+import { CreateGameUseCaseInterface } from '../../../data/abstract/game/create-game-interface';
+import { GameRepositoryInterface } from '../../../infra/repositories/abstract/game-repository-interface';
+import { GameDto } from '../../../domain/dtos/game-dto';
+import { GameEntity } from '../../../entities/game-entity';
 
 export class CreateGameUseCase implements CreateGameUseCaseInterface {
   constructor(private readonly repository: GameRepositoryInterface) {}

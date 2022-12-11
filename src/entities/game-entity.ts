@@ -1,8 +1,8 @@
-import { GameDto } from 'src/domain/dtos/game-dto';
-import { GameEntityInterface } from 'src/domain/entities/game-entity-interface';
-import { GameValidatorInterface } from 'src/entities/abstract/game-validator-interface';
-import { IdGeneratorAdapter } from 'src/utils/adapters/id-generator-adapter';
-import { MissingParamError } from 'src/utils/errors';
+import { GameDto } from '../domain/dtos/game-dto';
+import { GameEntityInterface } from '../domain/entities/game-entity-interface';
+import { GameValidatorInterface } from '../entities/abstract/game-validator-interface';
+import { IdGeneratorAdapter } from '../utils/adapters/id-generator-adapter';
+import { MissingParamError } from '../utils/errors';
 
 export class GameEntity implements GameValidatorInterface {
   constructor(private readonly game: GameDto) {}
