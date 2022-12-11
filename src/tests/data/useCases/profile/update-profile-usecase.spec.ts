@@ -3,6 +3,7 @@ import { UpdateProfileUseCase } from '../../../../data/useCases/profile/update-p
 import { fakeProfile } from '../../../test-utils/fake-entities/fake-profile';
 import { fakeUser } from '../../../test-utils/fake-entities/fake-user';
 import { ProfileRepositoryStub } from '../../../test-utils/stubs/repositories/profile-repository-stub';
+import { InvalidParamError } from '../../../../utils/errors';
 
 interface SutTypes {
   profileRepositoryStub: ProfileRepositoryStub;
@@ -65,20 +66,20 @@ describe('UpdateProfileUseCase', () => {
     expect(updated).toBe(true);
   });
 
-  test('Should return false if ProfileRepository.getOne returns void.', async () => {
+  test('Should throw if ProfileRepository.getOne returns void.', async () => {
     const { profileRepositoryStub, updateProfileUseCase } = makeSut();
     jest
       .spyOn(profileRepositoryStub, 'getOne')
       .mockReturnValueOnce(new Promise((resolve) => resolve()));
-    const updated = await updateProfileUseCase.execute(
+    const promise = updateProfileUseCase.execute(
       fakeProfile,
       fakeProfile.id,
       fakeUser.id,
     );
-    expect(updated).toBe(false);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 
-  test('Should return false if foundProfile.userId is different than the given user id.', async () => {
+  test('Should throw if foundProfile.userId is different than the given user id.', async () => {
     const { profileRepositoryStub, updateProfileUseCase } = makeSut();
     jest
       .spyOn(profileRepositoryStub, 'getOne')
@@ -87,11 +88,11 @@ describe('UpdateProfileUseCase', () => {
           resolve({ ...fakeProfile, userId: 'another_id' }),
         ),
       );
-    const updated = await updateProfileUseCase.execute(
+    const promise = updateProfileUseCase.execute(
       fakeProfile,
       fakeProfile.id,
       fakeUser.id,
     );
-    expect(updated).toBe(false);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 });
