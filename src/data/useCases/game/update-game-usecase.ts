@@ -2,6 +2,7 @@ import { UpdateGameUseCaseInterface } from '../../../data/abstract/game/update-g
 import { GameRepositoryInterface } from '../../../infra/repositories/abstract/game-repository-interface';
 import { GameEntity } from '../../../entities/game-entity';
 import { GameDto } from '../../../domain/dtos/game-dto';
+import { InvalidParamError } from '../../../utils/errors';
 
 export class UpdateGameUseCase implements UpdateGameUseCaseInterface {
   constructor(private readonly repository: GameRepositoryInterface) {}
@@ -19,7 +20,7 @@ export class UpdateGameUseCase implements UpdateGameUseCaseInterface {
         return false;
       }
     } else {
-      return false;
+      throw new InvalidParamError('ID');
     }
   }
 }
