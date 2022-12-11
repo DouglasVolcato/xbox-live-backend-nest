@@ -4,6 +4,7 @@ import { fakeGame } from '../../../test-utils/fake-entities/fake-game';
 import { fakeProfile } from '../../../test-utils/fake-entities/fake-profile';
 import { fakeUser } from '../../../test-utils/fake-entities/fake-user';
 import { ProfileRepositoryStub } from '../../../test-utils/stubs/repositories/profile-repository-stub';
+import { InvalidParamError } from '../../../../utils/errors';
 
 interface SutTypes {
   profileRepositoryStub: ProfileRepositoryStub;
@@ -47,7 +48,7 @@ describe('AddGamesProfileUseCase', () => {
     expect(gamesAdded).toBe(true);
   });
 
-  test('Should return false if foundProfile userId is different than the given user id.', async () => {
+  test('Should throw if foundProfile userId is different than the given user id.', async () => {
     const { addGamesProfileUseCase, profileRepositoryStub } = makeSut();
     jest
       .spyOn(profileRepositoryStub, 'getOne')
@@ -56,25 +57,25 @@ describe('AddGamesProfileUseCase', () => {
           resolve({ ...fakeProfile, userId: 'another_id' }),
         ),
       );
-    const gamesAdded = await addGamesProfileUseCase.execute(
+    const promise = addGamesProfileUseCase.execute(
       fakeProfile.id,
       [fakeGame.id],
       fakeUser.id,
     );
-    expect(gamesAdded).toBe(false);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 
-  test('Should return false if foundProfile returns void.', async () => {
+  test('Should return false if foundProfile is void.', async () => {
     const { addGamesProfileUseCase, profileRepositoryStub } = makeSut();
     jest
       .spyOn(profileRepositoryStub, 'getOne')
       .mockReturnValueOnce(new Promise((resolve) => resolve()));
-    const gamesAdded = await addGamesProfileUseCase.execute(
+    const promise = addGamesProfileUseCase.execute(
       fakeProfile.id,
       [fakeGame.id],
       fakeUser.id,
     );
-    expect(gamesAdded).toBe(false);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 
   test('Should throw if ProfileRepository.getOne throws.', async () => {
