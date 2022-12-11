@@ -2,6 +2,7 @@ import { makeError } from '../../../test-utils/errors/make-error';
 import { UpdateGameUseCase } from '../../../../data/useCases/game/update-game-usecase';
 import { fakeGame } from '../../../test-utils/fake-entities/fake-game';
 import { GameRepositoryStub } from '../../../test-utils/stubs/repositories/game-repository-stub';
+import { InvalidParamError } from '../../../../utils/errors';
 
 interface SutTypes {
   gameRepositoryStub: GameRepositoryStub;
@@ -44,12 +45,12 @@ describe('UpdateGameUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  test('Should return false if GameRepository.findOne returns void.', async () => {
+  test('Should throw if GameRepository.findOne returns void.', async () => {
     const { gameRepositoryStub, updateGameUseCase } = makeSut();
     jest
       .spyOn(gameRepositoryStub, 'getOne')
       .mockReturnValueOnce(new Promise((resolve) => resolve()));
-    const promise = await updateGameUseCase.execute(fakeGame, fakeGame.id);
-    expect(promise).toBe(false);
+    const promise = updateGameUseCase.execute(fakeGame, fakeGame.id);
+    expect(promise).rejects.toThrow(InvalidParamError);
   });
 });
