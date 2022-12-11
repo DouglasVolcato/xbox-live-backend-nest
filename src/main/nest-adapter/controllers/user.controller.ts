@@ -21,6 +21,7 @@ import {
 import { NestUserDto } from '../dtos/user.dto';
 import { ResponseInterceptor } from '../interceptors/response-interceptor';
 import { EmailDto } from '../dtos/email.dto';
+import { HttpCode } from '@nestjs/common/decorators';
 const user = makeUserControllerFactory();
 
 @ApiTags('user')
@@ -101,7 +102,8 @@ export class UserController {
   @ApiOperation({
     summary: 'Get a user by email.',
   })
-  @Get('get-user-by-email')
+  @Post('get-user-by-email')
+  @HttpCode(200)
   @ApiResponse({
     status: 200,
     description: 'User found.',
