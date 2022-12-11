@@ -2,6 +2,7 @@ import { UpdateProfileUseCaseInterface } from '../../abstract/profile/update-pro
 import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
 import { ProfileDto } from '../../../domain/dtos/profile-dto';
 import { ProfileEntity } from '../../../entities/profile-entity';
+import { InvalidParamError } from '../../../utils/errors';
 
 export class UpdateProfileUseCase implements UpdateProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
@@ -26,7 +27,7 @@ export class UpdateProfileUseCase implements UpdateProfileUseCaseInterface {
         return false;
       }
     } else {
-      return false;
+      throw new InvalidParamError('ID');
     }
   }
 }
