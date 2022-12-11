@@ -121,7 +121,7 @@ export class UserController implements UserControllerInterface {
       const id = httpRequest.id;
       const body = httpRequest.body;
 
-      if (authUser.id !== id) {
+      if (authUser.id !== id && !authUser.isAdmin) {
         const http = new HttpResponseHandler({
           message: 'Unauthorized to update this user.',
         });
