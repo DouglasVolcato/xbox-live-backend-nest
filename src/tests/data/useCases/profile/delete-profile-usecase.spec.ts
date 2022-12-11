@@ -3,6 +3,7 @@ import { DeleteProfileUseCase } from '../../../../data/useCases/profile/delete-p
 import { fakeProfile } from '../../../test-utils/fake-entities/fake-profile';
 import { fakeUser } from '../../../test-utils/fake-entities/fake-user';
 import { ProfileRepositoryStub } from '../../../test-utils/stubs/repositories/profile-repository-stub';
+import { InvalidParamError } from '../../../../utils/errors';
 
 interface SutTypes {
   profileRepositoryStub: ProfileRepositoryStub;
@@ -26,7 +27,7 @@ describe('DeleteProfileUseCase', () => {
     expect(deleteSpy).toHaveBeenCalledWith(fakeProfile.id);
   });
 
-  test('Should return false if foundProfile userId is different then the user id.', async () => {
+  test('Should throw if foundProfile userId is different then the user id.', async () => {
     const { profileRepositoryStub, deleteProfileUseCase } = makeSut();
     jest
       .spyOn(profileRepositoryStub, 'getOne')
@@ -35,23 +36,17 @@ describe('DeleteProfileUseCase', () => {
           resolve({ ...fakeProfile, userId: 'wrong_id' }),
         ),
       );
-    const promise = await deleteProfileUseCase.execute(
-      fakeProfile.id,
-      fakeUser.id,
-    );
-    expect(promise).toBe(false);
+    const promise = deleteProfileUseCase.execute(fakeProfile.id, fakeUser.id);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 
-  test('Should return false if foundProfile is null.', async () => {
+  test('Should throw if foundProfile is null.', async () => {
     const { profileRepositoryStub, deleteProfileUseCase } = makeSut();
     jest
       .spyOn(profileRepositoryStub, 'getOne')
       .mockReturnValueOnce(new Promise((resolve) => resolve()));
-    const promise = await deleteProfileUseCase.execute(
-      fakeProfile.id,
-      fakeUser.id,
-    );
-    expect(promise).toBe(false);
+    const promise = deleteProfileUseCase.execute(fakeProfile.id, fakeUser.id);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 
   test('Should throw if ProfileRepository.getOne throws.', async () => {
