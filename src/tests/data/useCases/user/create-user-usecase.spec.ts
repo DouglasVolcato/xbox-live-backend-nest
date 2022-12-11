@@ -8,6 +8,7 @@ import { UserRepositoryStub } from '../../../test-utils/stubs/repositories/user-
 import { InvalidParamError } from '../../../../utils/errors';
 
 const newFakeUser = { ...fakeUser, email: 'another_email' };
+
 const newFakeUserWithoutPassword = {
   ...fakeUserWithoutPassword,
   email: 'another_email',
