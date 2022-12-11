@@ -5,6 +5,7 @@ import { HasherAdapterStub } from '../../../test-utils/stubs/adapters/hasher-ada
 import { TokenHandlerAdapterStub } from '../../../test-utils/stubs/adapters/token-handler-adapter-stub';
 import { UserRepositoryStub } from '../../../test-utils/stubs/repositories/user-repository-stub';
 import { InvalidParamError } from '../../../../utils/errors';
+import { makeError } from '../../../test-utils/errors/make-error';
 
 interface SutTypes {
   userRepositoryStub: UserRepositoryStub;
@@ -77,5 +78,12 @@ describe('LoginAuthUseCase', () => {
     jest.spyOn(hasherAdapterStub, 'compare').mockReturnValueOnce(false);
     const promise = loginAuthUseCase.execute(fakeLogin);
     await expect(promise).rejects.toThrow(InvalidParamError);
+  });
+
+  test('Should throw if UserRepository throws.', async () => {
+    const { userRepositoryStub, loginAuthUseCase } = makeSut();
+    jest.spyOn(userRepositoryStub, 'getOneByEmail').mockReturnValueOnce(makeError());
+    const promise = loginAuthUseCase.execute(fakeLogin);
+    await expect(promise).rejects.toThrow();
   });
 });
