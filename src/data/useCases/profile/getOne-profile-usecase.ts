@@ -1,6 +1,7 @@
 import { GetOneProfileUseCaseInterface } from '../../abstract/profile/getOne-profile-interface';
 import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
 import { ProfileEntityInterface } from '../../../domain/entities/profile-entity-interface';
+import { InvalidParamError } from '../../../utils/errors';
 
 export class GetOneProfileUseCase implements GetOneProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
@@ -13,7 +14,8 @@ export class GetOneProfileUseCase implements GetOneProfileUseCaseInterface {
 
     if (foundProfile && foundProfile.userId === userId) {
       return foundProfile;
+    } else {
+      throw new InvalidParamError('ID');
     }
-    return;
   }
 }
