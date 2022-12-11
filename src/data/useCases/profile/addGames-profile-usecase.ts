@@ -1,3 +1,4 @@
+import { InvalidParamError } from '../../../utils/errors';
 import { AddGamesProfileUseCaseInterface } from '../../../data/abstract/profile/addGames-profile-interface';
 import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
 
@@ -40,7 +41,7 @@ export class AddGamesProfileUseCase implements AddGamesProfileUseCaseInterface {
         return false;
       }
     } else {
-      return false;
+      throw new InvalidParamError('ID');
     }
   }
 }
