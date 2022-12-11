@@ -11,6 +11,20 @@ export class UpdateUserUseCase implements UpdateUserUseCaseInterface {
     const foundUser = await this.repository.getOneById(id);
 
     if (foundUser) {
+      if (body.email) {
+        const foundUserWithTheSameEmail = await this.repository.getOneByEmail(
+          body.email,
+        );
+        if (
+          foundUserWithTheSameEmail &&
+          foundUserWithTheSameEmail.id !== foundUser.id
+        ) {
+          throw new InvalidParamError(
+            'Email already registered in another account.',
+          );
+        }
+      }
+
       const updatedBody = new UserEntity(body).updateBody(foundUser);
       const updatedUser = await this.repository.update(updatedBody, id);
 
