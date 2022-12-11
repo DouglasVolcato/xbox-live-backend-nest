@@ -50,4 +50,15 @@ describe('UpdateUserUseCase', () => {
     const promise = updateUserUseCase.execute(fakeUser, fakeUser.id);
     await expect(promise).rejects.toThrow(InvalidParamError);
   });
+
+  test('Should throw if there is another user with the same email registered.', async () => {
+    const { updateUserUseCase, userRepositoryStub } = makeSut();
+    jest
+      .spyOn(userRepositoryStub, 'getOneByEmail')
+      .mockReturnValueOnce(
+        new Promise((resolve) => resolve({ ...fakeUser, id: 'another_id' })),
+      );
+    const promise = updateUserUseCase.execute(fakeUser, fakeUser.id);
+    await expect(promise).rejects.toThrow(InvalidParamError);
+  });
 });
