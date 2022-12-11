@@ -1,5 +1,6 @@
 import { DeleteProfileUseCaseInterface } from '../../abstract/profile/delete-profile-interface';
 import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
+import { InvalidParamError } from '../../../utils/errors';
 
 export class DeleteProfileUseCase implements DeleteProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}
@@ -15,7 +16,7 @@ export class DeleteProfileUseCase implements DeleteProfileUseCaseInterface {
         return false;
       }
     } else {
-      return false;
+      throw new InvalidParamError('ID');
     }
   }
 }
