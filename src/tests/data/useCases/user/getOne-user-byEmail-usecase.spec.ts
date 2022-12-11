@@ -33,7 +33,7 @@ describe('GetOneUserByEmailUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  test('Should return true if called with correct user email.', async () => {
+  test('Should return a user if called with correct user email.', async () => {
     const { getOneUserByEmailUseCase } = makeSut();
     const promise = await getOneUserByEmailUseCase.execute(fakeUser.email);
     expect(promise).toBe(fakeUser);
