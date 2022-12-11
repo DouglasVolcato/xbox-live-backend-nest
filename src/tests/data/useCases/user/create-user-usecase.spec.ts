@@ -6,6 +6,12 @@ import {
 } from '../../../test-utils/fake-entities/fake-user';
 import { UserRepositoryStub } from '../../../test-utils/stubs/repositories/user-repository-stub';
 
+const newFakeUser = { ...fakeUser, email: 'another_email' };
+const newFakeUserWithoutPassword = {
+  ...fakeUserWithoutPassword,
+  email: 'another_email',
+};
+
 interface SutTypes {
   createUserUseCase: CreateUserUseCase;
   userRepositoryStub: UserRepositoryStub;
@@ -21,22 +27,40 @@ describe('CreateUserUseCase', () => {
   test('Should call UserRepository with correct value.', async () => {
     const { createUserUseCase, userRepositoryStub } = makeSut();
     const createSpy = jest.spyOn(userRepositoryStub, 'create');
-    await createUserUseCase.execute(fakeUser);
+    await createUserUseCase.execute(newFakeUser);
     expect(createSpy).toHaveBeenCalledWith(
-      expect.objectContaining(fakeUserWithoutPassword),
+      expect.objectContaining(newFakeUserWithoutPassword),
     );
   });
 
-  test('Should throw if UserRepository throws.', async () => {
+  test('Should throw if UserRepository.create throws.', async () => {
     const { createUserUseCase, userRepositoryStub } = makeSut();
     jest.spyOn(userRepositoryStub, 'create').mockReturnValueOnce(makeError());
-    const promise = createUserUseCase.execute(fakeUser);
+    const promise = createUserUseCase.execute(newFakeUser);
+    await expect(promise).rejects.toThrow();
+  });
+
+  test('Should throw if foundUser email is equal to the new user email.', async () => {
+    const { createUserUseCase, userRepositoryStub } = makeSut();
+    jest
+      .spyOn(userRepositoryStub, 'getOneByEmail')
+      .mockReturnValueOnce(new Promise((resolve) => resolve(newFakeUser)));
+    const promise = createUserUseCase.execute(newFakeUser);
+    await expect(promise).rejects.toThrow();
+  });
+
+  test('Should throw if UserRepository.getOneByEmail throws.', async () => {
+    const { createUserUseCase, userRepositoryStub } = makeSut();
+    jest
+      .spyOn(userRepositoryStub, 'getOneByEmail')
+      .mockReturnValueOnce(makeError());
+    const promise = createUserUseCase.execute(newFakeUser);
     await expect(promise).rejects.toThrow();
   });
 
   test('Should return true if called with correct user.', async () => {
     const { createUserUseCase } = makeSut();
-    const promise = await createUserUseCase.execute(fakeUser);
+    const promise = await createUserUseCase.execute(newFakeUser);
     expect(promise).toBe(true);
   });
 });
