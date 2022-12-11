@@ -1,3 +1,4 @@
+import { InvalidParamError } from '../../../utils/errors';
 import { RemoveGamesProfileUseCaseInterface } from '../../../data/abstract/profile/removeGames-profile-interface';
 import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
 
@@ -30,7 +31,7 @@ export class RemoveGamesProfileUseCase
         return false;
       }
     } else {
-      return false;
+      throw new InvalidParamError('ID');
     }
   }
 }
