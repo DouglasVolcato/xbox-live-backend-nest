@@ -16,27 +16,27 @@ export class UserRepository implements UserRepositoryInterface {
         createdAt: body.createdAt,
         updatedAt: body.updatedAt,
       },
-      include: { profiles: true },
+      include: { profiles: { include: { Game: true } } },
     });
   }
 
   async getOneByEmail(email: string): Promise<UserEntityInterface> {
     return await prismaDatabase.user.findUnique({
       where: { email: email },
-      include: { profiles: true },
+      include: { profiles: { include: { Game: true } } },
     });
   }
 
   async getOneById(id: string): Promise<UserEntityInterface> {
     return await prismaDatabase.user.findUnique({
       where: { id: id },
-      include: { profiles: true },
+      include: { profiles: { include: { Game: true } } },
     });
   }
 
   async getAll(): Promise<UserEntityInterface[]> {
     return await prismaDatabase.user.findMany({
-      include: { profiles: true },
+      include: { profiles: { include: { Game: true } } },
     });
   }
 
@@ -56,14 +56,14 @@ export class UserRepository implements UserRepositoryInterface {
         createdAt: body.createdAt,
         updatedAt: body.updatedAt,
       },
-      include: { profiles: true },
+      include: { profiles: { include: { Game: true } } },
     });
   }
 
   async delete(id: string): Promise<void | UserEntityInterface> {
     return await prismaDatabase.user.delete({
       where: { id: id },
-      include: { profiles: true },
+      include: { profiles: { include: { Game: true } } },
     });
   }
 }
