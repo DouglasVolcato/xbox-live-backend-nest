@@ -3,6 +3,7 @@ import { RemoveGamesProfileUseCase } from '../../../../data/useCases/profile/rem
 import { fakeProfile } from '../../../test-utils/fake-entities/fake-profile';
 import { fakeUser } from '../../../test-utils/fake-entities/fake-user';
 import { ProfileRepositoryStub } from '../../../test-utils/stubs/repositories/profile-repository-stub';
+import { InvalidParamError } from '../../../../utils/errors';
 
 interface SutTypes {
   profileRepositoryStub: ProfileRepositoryStub;
@@ -84,7 +85,7 @@ describe('RemoveGamesProfileUseCase', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  test('Should return false if foundProfile.userId is different from given user id.', async () => {
+  test('Should throw if foundProfile.userId is different from given user id.', async () => {
     const { profileRepositoryStub, removeGamesProfile } = makeSut();
     jest
       .spyOn(profileRepositoryStub, 'getOne')
@@ -93,24 +94,24 @@ describe('RemoveGamesProfileUseCase', () => {
           resolve({ ...fakeProfile, userId: 'another_id' }),
         ),
       );
-    const promise = await removeGamesProfile.execute(
+    const promise = removeGamesProfile.execute(
       fakeProfile.id,
       ['game_to_delete'],
       fakeUser.id,
     );
-    expect(promise).toBe(false);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 
-  test('Should return false if foundProfile is null.', async () => {
+  test('Should throw if foundProfile is null.', async () => {
     const { profileRepositoryStub, removeGamesProfile } = makeSut();
     jest
       .spyOn(profileRepositoryStub, 'getOne')
       .mockReturnValueOnce(new Promise((resolve) => resolve()));
-    const promise = await removeGamesProfile.execute(
+    const promise = removeGamesProfile.execute(
       fakeProfile.id,
       ['game_to_delete'],
       fakeUser.id,
     );
-    expect(promise).toBe(false);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 });
