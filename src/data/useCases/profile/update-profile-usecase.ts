@@ -1,8 +1,8 @@
 import { UpdateProfileUseCaseInterface } from '../../abstract/profile/update-profile-interface';
-import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
-import { ProfileDto } from 'src/domain/dtos/profile-dto';
-import { InvalidParamError } from 'src/utils/errors';
-import { ProfileEntity } from 'src/entities/profile-entity';
+import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
+import { ProfileDto } from '../../../domain/dtos/profile-dto';
+import { ProfileEntity } from '../../../entities/profile-entity';
+import { InvalidParamError } from '../../../utils/errors';
 
 export class UpdateProfileUseCase implements UpdateProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}

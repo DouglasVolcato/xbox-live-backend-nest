@@ -1,13 +1,13 @@
-import { ProfileDto } from 'src/domain/dtos/profile-dto';
-import { UpdateGameUseCaseInterface } from 'src/data/abstract/game/update-game-interface';
-import { GameRepositoryInterface } from 'src/infra/repositories/abstract/game-repository-interface';
-import { InvalidParamError } from 'src/utils/errors';
-import { GameEntity } from 'src/entities/game-entity';
+import { UpdateGameUseCaseInterface } from '../../../data/abstract/game/update-game-interface';
+import { GameRepositoryInterface } from '../../../infra/repositories/abstract/game-repository-interface';
+import { GameEntity } from '../../../entities/game-entity';
+import { GameDto } from '../../../domain/dtos/game-dto';
+import { InvalidParamError } from '../../../utils/errors';
 
 export class UpdateGameUseCase implements UpdateGameUseCaseInterface {
   constructor(private readonly repository: GameRepositoryInterface) {}
 
-  async execute(body: ProfileDto, id: string): Promise<boolean> {
+  async execute(body: GameDto, id: string): Promise<boolean> {
     const foundGame = await this.repository.getOne(id);
 
     if (foundGame) {

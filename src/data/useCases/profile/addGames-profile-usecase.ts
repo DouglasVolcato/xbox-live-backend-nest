@@ -1,6 +1,6 @@
-import { AddGamesProfileUseCaseInterface } from 'src/data/abstract/profile/addGames-profile-interface';
-import { ProfileRepositoryInterface } from 'src/infra/repositories/abstract/profile-repository-interface';
-import { InvalidParamError } from 'src/utils/errors';
+import { InvalidParamError } from '../../../utils/errors';
+import { AddGamesProfileUseCaseInterface } from '../../../data/abstract/profile/addGames-profile-interface';
+import { ProfileRepositoryInterface } from '../../../infra/repositories/abstract/profile-repository-interface';
 
 export class AddGamesProfileUseCase implements AddGamesProfileUseCaseInterface {
   constructor(private readonly repository: ProfileRepositoryInterface) {}

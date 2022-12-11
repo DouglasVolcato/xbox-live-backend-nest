@@ -1,15 +1,15 @@
-import { LoginAuthUseCaseInterface } from 'src/data/abstract/auth/login-auth-interface';
-import { LoginDto } from 'src/domain/dtos/login-dto';
-import { UserRepositoryInterface } from 'src/infra/repositories/abstract/user-repository-interface';
-import { HasherAdapter } from 'src/utils/adapters/hasher-adapter';
-import { TokenHandlerAdapter } from 'src/utils/adapters/token-handler-adapter';
-import { InvalidParamError } from 'src/utils/errors';
+import { LoginAuthUseCaseInterface } from '../../../data/abstract/auth/login-auth-interface';
+import { LoginDto } from '../../../domain/dtos/login-dto';
+import { UserRepositoryInterface } from '../../../infra/repositories/abstract/user-repository-interface';
+import { HasherInterface } from '../../../utils/abstract/adapters/hasher-interface';
+import { TokenHandlerInterface } from '../../../utils/abstract/adapters/token-handler-interface';
+import { InvalidParamError } from '../../../utils/errors';
 
 export class LoginAuthUseCase implements LoginAuthUseCaseInterface {
   constructor(
     private readonly repository: UserRepositoryInterface,
-    private readonly hasher: HasherAdapter,
-    private readonly tokenHandler: TokenHandlerAdapter,
+    private readonly hasher: HasherInterface,
+    private readonly tokenHandler: TokenHandlerInterface,
   ) {}
 
   async execute(body: LoginDto): Promise<string | null> {

@@ -3,7 +3,7 @@ import { CreateProfileUseCase } from 'src/data/useCases/profile/create-profile-u
 import { DeleteProfileUseCase } from 'src/data/useCases/profile/delete-profile-usecase';
 import { GetAllProfilesUseCase } from 'src/data/useCases/profile/getAll-profile-usecase';
 import { GetOneProfileUseCase } from 'src/data/useCases/profile/getOne-profile-usecase';
-import { RemoveGamesProfileUseCase } from 'src/data/useCases/profile/removeGame-profile-usecase';
+import { RemoveGamesProfileUseCase } from 'src/data/useCases/profile/removeGames-profile-usecase';
 import { UpdateProfileUseCase } from 'src/data/useCases/profile/update-profile-usecase';
 import { ProfileRepository } from 'src/infra/repositories/profile-repository';
 import { ProfileControllerInterface } from 'src/presentation/abstract/controllers/profile-controller-interface';

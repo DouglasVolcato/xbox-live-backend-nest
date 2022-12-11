@@ -1,6 +1,6 @@
-import { GetAllGamesUseCaseInterface } from 'src/data/abstract/game/getAll-game-interface';
-import { GameRepositoryInterface } from 'src/infra/repositories/abstract/game-repository-interface';
-import { GameEntityInterface } from 'src/domain/entities/game-entity-interface';
+import { GetAllGamesUseCaseInterface } from '../../../data/abstract/game/getAll-game-interface';
+import { GameRepositoryInterface } from '../../../infra/repositories/abstract/game-repository-interface';
+import { GameEntityInterface } from '../../../domain/entities/game-entity-interface';
 
 export class GetAllGamesUseCase implements GetAllGamesUseCaseInterface {
   constructor(private readonly repository: GameRepositoryInterface) {}
