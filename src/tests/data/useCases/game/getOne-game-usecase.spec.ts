@@ -34,4 +34,13 @@ describe('GetOneGameUseCase', () => {
     const promise = await getOneGameUseCase.execute(fakeGame.id);
     expect(promise).toBe(fakeGame);
   });
+
+  test('Should return void if GameRepository.getOne returns undefined.', async () => {
+    const { getOneGameUseCase, gameRepositoryStub } = makeSut();
+    jest
+      .spyOn(gameRepositoryStub, 'getOne')
+      .mockReturnValueOnce(new Promise((resolve) => resolve()));
+    const promise = await getOneGameUseCase.execute(fakeGame.id);
+    expect(promise).toBeUndefined();
+  });
 });
