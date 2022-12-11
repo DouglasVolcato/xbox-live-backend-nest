@@ -5,6 +5,7 @@ import {
 import { UserRepositoryStub } from '../../../test-utils/stubs/repositories/user-repository-stub';
 import { makeError } from '../../../test-utils/errors/make-error';
 import { UpdateUserUseCase } from '../../../../data/useCases/user/update-user-usecase';
+import { InvalidParamError } from '../../../../utils/errors';
 
 interface SutTypes {
   userRepositoryStub: UserRepositoryStub;
@@ -41,12 +42,12 @@ describe('UpdateUserUseCase', () => {
     expect(promise).toBe(true);
   });
 
-  test('Should return false UserRepository.getOneById returns void.', async () => {
+  test('Should throw if UserRepository.getOneById returns void.', async () => {
     const { updateUserUseCase, userRepositoryStub } = makeSut();
     jest
-      .spyOn(userRepositoryStub, 'update')
+      .spyOn(userRepositoryStub, 'getOneById')
       .mockReturnValueOnce(new Promise((resolve) => resolve()));
-    const promise = await updateUserUseCase.execute(fakeUser, fakeUser.id);
-    expect(promise).toBeFalsy();
+    const promise = updateUserUseCase.execute(fakeUser, fakeUser.id);
+    await expect(promise).rejects.toThrow(InvalidParamError);
   });
 });
