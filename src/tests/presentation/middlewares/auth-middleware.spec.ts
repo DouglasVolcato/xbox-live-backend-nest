@@ -5,6 +5,10 @@ import { UnauthorizedError } from '../../../utils/errors';
 import { makeError } from '../../test-utils/errors/make-error';
 import { fakeUser } from '../../test-utils/fake-entities/fake-user';
 
+function makeAuthorization(authorization: string) {
+  return { headers: { authorization: authorization } };
+}
+
 interface SutTypes {
   tokenHandlerAdapterStub: TokenHandlerAdapterStub;
   authMiddleware: AuthMiddleware;
@@ -26,7 +30,7 @@ describe('AuthMiddleware', () => {
   test('Should throw if authorization has not two words.', async () => {
     const { authMiddleware } = makeSut();
     const promise = authMiddleware.auth(
-      makeHttpRequest({ headers: { authorization: 'any_token' } }),
+      makeHttpRequest(makeAuthorization('any_token')),
     );
     await expect(promise).rejects.toThrow(UnauthorizedError);
   });
@@ -34,7 +38,7 @@ describe('AuthMiddleware', () => {
   test('Should throw if authorization has not the word Bearer.', async () => {
     const { authMiddleware } = makeSut();
     const promise = authMiddleware.auth(
-      makeHttpRequest({ headers: { authorization: 'somer_word any_token' } }),
+      makeHttpRequest(makeAuthorization('somer_word any_token')),
     );
     await expect(promise).rejects.toThrow(UnauthorizedError);
   });
@@ -42,9 +46,7 @@ describe('AuthMiddleware', () => {
   test('Should throw if authorization has more than three words.', async () => {
     const { authMiddleware } = makeSut();
     const promise = authMiddleware.auth(
-      makeHttpRequest({
-        headers: { authorization: 'some_word any_token another_word' },
-      }),
+      makeHttpRequest(makeAuthorization('some_word any_token another_word')),
     );
     await expect(promise).rejects.toThrow(UnauthorizedError);
   });
@@ -53,9 +55,7 @@ describe('AuthMiddleware', () => {
     const { authMiddleware, tokenHandlerAdapterStub } = makeSut();
     const validatorSpy = jest.spyOn(tokenHandlerAdapterStub, 'validateToken');
     await authMiddleware.auth(
-      makeHttpRequest({
-        headers: { authorization: 'Bearer any_token' },
-      }),
+      makeHttpRequest(makeAuthorization('Bearer any_token')),
     );
     expect(validatorSpy).toHaveBeenCalledWith('any_token');
   });
@@ -66,9 +66,7 @@ describe('AuthMiddleware', () => {
       .spyOn(tokenHandlerAdapterStub, 'validateToken')
       .mockReturnValueOnce(makeError());
     const promise = authMiddleware.auth(
-      makeHttpRequest({
-        headers: { authorization: 'Bearer any_token' },
-      }),
+      makeHttpRequest(makeAuthorization('Bearer any_token')),
     );
     await expect(promise).rejects.toThrow(UnauthorizedError);
   });
@@ -76,9 +74,7 @@ describe('AuthMiddleware', () => {
   test('Should return a user on success.', async () => {
     const { authMiddleware } = makeSut();
     const user = await authMiddleware.auth(
-      makeHttpRequest({
-        headers: { authorization: 'Bearer any_token' },
-      }),
+      makeHttpRequest(makeAuthorization('Bearer any_token')),
     );
     expect(user).toBe(fakeUser);
   });
