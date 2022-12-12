@@ -1,4 +1,4 @@
-import { LoginAuthUseCaseStub } from '../../test-utils/stubs/useCases/login-auth-usecase-stub';
+import { LoginAuthUseCaseStub } from '../../test-utils/stubs/useCases/auth/login-auth-usecase-stub';
 import { AuthController } from '../../../presentation/controllers/auth/auth-controller';
 import { makeHttpRequest } from '../../test-utils/http/make-http-request';
 import { fakeUser } from '../../test-utils/fake-entities/fake-user';
