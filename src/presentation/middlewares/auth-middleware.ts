@@ -1,11 +1,11 @@
-import { UserEntityInterface } from 'src/domain/entities/user-entity-interface';
-import { TokenHandlerAdapter } from 'src/utils/adapters/token-handler-adapter';
-import { UnauthorizedError } from 'src/utils/errors';
+import { TokenHandlerInterface } from '../../utils/abstract/adapters/token-handler-interface';
+import { UserEntityInterface } from '../../domain/entities/user-entity-interface';
+import { UnauthorizedError } from '../../utils/errors';
 import { AuthMiddlewareInterface } from '../abstract/middlewares/auth-middleware-interface';
 import { HttpRequest } from '../controllers/profile/interface-imports';
 
 export class AuthMiddleware implements AuthMiddlewareInterface {
-  constructor(private readonly tokenHandler: TokenHandlerAdapter) {}
+  constructor(private readonly tokenHandler: TokenHandlerInterface) {}
 
   async auth(httpRequest: HttpRequest): Promise<UserEntityInterface> {
     try {
