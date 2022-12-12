@@ -8,3 +8,4 @@ export * from 'src/data/abstract/user/getAll-user-interface';
 export * from '../game/interface-imports';
 export * from 'src/domain/http/http-request';
 export * from 'src/domain/http/http-response';
+export * from 'src/presentation/abstract/middlewares/auth-middleware-interface'

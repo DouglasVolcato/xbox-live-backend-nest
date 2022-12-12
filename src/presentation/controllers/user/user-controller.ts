@@ -8,9 +8,9 @@ import {
   HttpRequest,
   HttpResponse,
   GetAllUsersUseCaseInterface,
+  AuthMiddlewareInterface,
 } from './interface-imports';
-import { HttpResponseHandler } from 'src/utils/handlers/http/http-response-handler';
-import { AuthMiddlewareInterface } from 'src/presentation/abstract/middlewares/auth-middleware-interface';
+import { HttpResponseHandler } from '../../../utils/handlers/http/http-response-handler';
 
 export class UserController implements UserControllerInterface {
   constructor(
