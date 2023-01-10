@@ -26,7 +26,7 @@ export class NestGameDto {
   @IsString()
   @ApiProperty({
     description: 'Represents the game gender.',
-    example: 'This is a great game!',
+    example: 'Adventure',
   })
   gender: string;
 
