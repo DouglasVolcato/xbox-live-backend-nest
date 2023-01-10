@@ -31,6 +31,7 @@ export class GameEntity implements GameValidatorInterface {
       coverImageUrl: this.game.coverImageUrl,
       description: this.game.description,
       year: this.game.year,
+      gender: this.game.gender ?? '',
       imdbScore: this.game.imdbScore ?? 0,
       trailerYouTubeUrl: this.game.trailerYouTubeUrl ?? '',
       gameplayYouTubeUrl: this.game.gameplayYouTubeUrl ?? '',
@@ -49,6 +50,7 @@ export class GameEntity implements GameValidatorInterface {
       coverImageUrl: this.game.coverImageUrl ?? mainGame.coverImageUrl,
       description: this.game.description ?? mainGame.description,
       year: this.game.year ?? mainGame.year,
+      gender: this.game.gender ?? mainGame.gender,
       imdbScore: this.game.imdbScore ?? mainGame.imdbScore,
       trailerYouTubeUrl:
         this.game.trailerYouTubeUrl ?? mainGame.trailerYouTubeUrl,

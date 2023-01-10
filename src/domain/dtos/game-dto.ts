@@ -4,6 +4,7 @@ export interface GameDto {
   coverImageUrl?: string;
   description?: string;
   year?: number;
+  gender?: string;
   imdbScore?: number;
   userId?: string;
   trailerYouTubeUrl?: string;

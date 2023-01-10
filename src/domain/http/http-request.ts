@@ -7,6 +7,7 @@ export interface HttpRequest {
     coverImageUrl?: string;
     description?: string;
     year?: number;
+    gender?:string;
     imdbScore?: number;
     trailerYouTubeUrl?: string;
     gameplayYouTubeUrl?: string;

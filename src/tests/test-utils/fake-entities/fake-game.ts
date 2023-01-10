@@ -3,6 +3,7 @@ export const fakeGame = {
   title: 'any_title',
   coverImageUrl: 'any_coverImageUrl',
   description: 'any_description',
+  gender: 'any_gender',
   year: 2022,
   imdbScore: 7.0,
   trailerYouTubeUrl: 'any_trailerYouTubeUrl',

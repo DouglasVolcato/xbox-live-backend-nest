@@ -41,6 +41,7 @@ model Game {
   coverImageUrl      String
   description        String
   year               Int
+  gender             String
   imdbScore          Float
   trailerYouTubeUrl  String
   gameplayYouTubeUrl String
