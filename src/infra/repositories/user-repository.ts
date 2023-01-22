@@ -61,9 +61,22 @@ export class UserRepository implements UserRepositoryInterface {
   }
 
   async delete(id: string): Promise<void | UserEntityInterface> {
-    return await prismaDatabase.user.delete({
-      where: { id: id },
-      include: { profiles: { include: { Game: true } } },
+    const user = await this.getOneById(id);
+    async function deleteProfile() {
+      return await user.profiles.map(async (profile) => {
+        const profileId = profile.id;
+        await prismaDatabase.profile.delete({
+          where: { id: profileId },
+        });
+      });
+    }
+    return await new Promise((resolve) => {
+      resolve(deleteProfile());
+    }).then(async () => {
+      return await prismaDatabase.user.delete({
+        where: { id: id },
+        include: { profiles: { include: { Game: true } } },
+      });
     });
   }
 }
