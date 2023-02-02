@@ -47,7 +47,7 @@ export class UserController implements UserControllerInterface {
       const email = httpRequest.body.email;
       const foundUser = await this.getOneUserByEmailUseCase.execute(email);
 
-      if (foundUser && authUser.id !== foundUser.id) {
+      if (foundUser && authUser.id !== foundUser.id && !authUser.isAdmin) {
         const http = new HttpResponseHandler({
           message: 'Unauthorized to view this user.',
         });
@@ -71,7 +71,7 @@ export class UserController implements UserControllerInterface {
       const id = httpRequest.id;
       const foundUser = await this.getOneUserByIdUseCase.execute(id);
 
-      if (foundUser && authUser.id !== foundUser.id) {
+      if (foundUser && authUser.id !== foundUser.id && !authUser.isAdmin) {
         const http = new HttpResponseHandler({
           message: 'Unauthorized to view this user.',
         });
@@ -148,7 +148,7 @@ export class UserController implements UserControllerInterface {
       const authUser = await this.authMiddleware.auth(httpRequest);
       const id = httpRequest.id;
 
-      if (authUser.id !== id) {
+      if (authUser.id !== id && !authUser.isAdmin) {
         const http = new HttpResponseHandler({
           message: 'Unauthorized to delete this user.',
         });
